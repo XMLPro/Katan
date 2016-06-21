@@ -1,0 +1,109 @@
+.f1{
+	background-color:pink;
+	height:50px;
+	width:50px;
+	margin: 0px;
+	padding: 10px;
+	border: solid black;
+	
+}
+
+.f2{
+	background-color:pink;
+	height: 50px;
+	width: 50px;
+	margin: 0px;
+	padding: 0px;
+	padding: 10px;
+	border: solid black;
+	
+}
+
+.f3{
+	background-color:pink;
+	height: 50px;
+	width: 50px;
+	margin: 0px;
+	padding: 0px;
+	padding: 10px;
+	border: solid black;
+	
+}
+
+.f4{
+	background-color:pink;
+	height: 50px;
+	width: 50px;
+	margin: -226px 0px 0px 75px;
+	padding: 0px;
+	padding: 10px;
+	border: solid black;
+	text-align: left;
+	
+}
+
+.f5{
+	background-color:pink;
+	height: 50px;
+	width: 50px;
+	margin: 0px 0px 0px 75px;
+	padding: 0px;
+	padding: 10px;
+	border: solid black;
+	
+}
+
+.f6{
+	background-color:pink;
+	height: 50px;
+	width: 50px;
+	margin: 0px 0px 0px 75px;
+	padding: 0px;
+	padding: 10px;
+	border: solid black;
+	
+}
+
+.f7{
+	background-color:pink;
+	height: 50px;
+	width: 50px;
+	margin: -226px 0px 0px 150px;
+	padding: 0px;
+	padding: 10px;
+	border: solid black;
+	text-align: left;
+	
+}
+
+.f8{
+	background-color:pink;
+	height: 50px;
+	width: 50px;
+	margin: 0px 0px 0px 150px;
+	padding: 0px;
+	padding: 10px;
+	border: solid black;
+	
+}
+
+.f9{
+	background-color:pink;
+	height: 50px;
+	width: 50px;
+	margin: 0px 0px 0px 150px;
+	padding: 0px;
+	padding: 10px;
+	border: solid black;
+	
+}
+
+
+.elipse{
+	background-color:black;
+	height:20px;
+	width:20px;
+	border-radius:100%;
+	left:-1000px;
+	position:absolute;
+}
