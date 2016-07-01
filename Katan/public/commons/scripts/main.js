@@ -6,6 +6,6 @@
   ctx.fillStyle = '#3333ff'
   ctx.fillRect(0, 0, 500, 500)  // マップ全体を青色に
 
-  const pm = new paintMap(ctx) // ライブラリを利用
+  const pm = new PaintMap(ctx) // ライブラリを利用
   pm.paintHexagons(5, tileColor) // タイルの描画
 }
