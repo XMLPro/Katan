@@ -18,14 +18,22 @@ class PaintMap {
   // 六角形の全体配置を決定する関数
   paintHexagons(row = 5, tiles) {
     for(let i = 0; i < tiles.length; i++) {
-      console.log(tiles[i])
       this.paintHexagon(tiles[i].getX(), tiles[i].getY(), 50)
     }
   }
 
-  paintNum(tiles) {
-    // 未実装
-    console.log(tiles[0].getNumber())
+  paintNum(tiles, arcColor = '#eeeeee', numColor = '#444444') {
+    this.ctx.font = '20px Unknown Font, sans-serif'
+    for(let i = 0; i < tiles.length; i++) {
+      this.ctx.beginPath()
+      this.ctx.fillStyle = arcColor
+      this.ctx.arc(tiles[i].getX(), tiles[i].getY(), 20, 0, Math.PI * 2, true)
+      this.ctx.fill()
+      this.ctx.stroke()
+      this.ctx.closePath()
+      this.ctx.fillStyle = numColor
+      this.ctx.fillText(tiles[i].getNumber(), tiles[i].getX() - 5, tiles[i].getY() + 5, 10)
+    }
   }
 }
 
