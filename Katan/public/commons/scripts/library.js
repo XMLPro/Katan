@@ -38,14 +38,14 @@ class PaintMap {
 }
 
 class Tile {
-  constructor(resource, number, x, y) {
-    this.resource = resource
+  constructor(resourceId, number, x, y) {
+    this.resourceId = resourceId
     this.number = number
     this.x = x
     this.y = y
   }
-  getResource() {
-    return this.resource
+  getResourceId() {
+    return this.resourceId
   }
   getNumber() {
     return this.number
@@ -71,3 +71,28 @@ const GenerateTiles = ((tileNum = 19) => {
   }
   return tiles
 })
+
+class Player {
+  // 資源は未実装
+  constructor(id, name, resourceNum) {
+    this.id = id
+    this.name = name
+    this.resource = new Array(resourceNum, 0)
+  }
+
+  getId() {
+    return this.id
+  }
+
+  getName() {
+    return this.name
+  }
+
+  getResource() {
+    return this.resource
+  }
+
+  setResource(resourceId, num) {
+    this.resource[resourceId] = num
+  }
+}
