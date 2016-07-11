@@ -7,6 +7,9 @@
 
   const tiles = GenerateTiles()
   const pm = new PaintMap(ctx, tiles)   // ライブラリを利用
-  pm.paintHexagons(5, tiles)            // タイルの描画
-  pm.paintNum(tiles)                    // 数字の描画
+  // ゲームループ とりあえず60FPSで描画
+  setInterval(() => {
+    pm.paintHexagons(5, tiles)            // タイルの描画
+    pm.paintNum(tiles)                    // 数字の描画
+  }, 1000 / 60)
 }
