@@ -56,20 +56,6 @@ class Tile {
   }
 }
 
-const GenerateTiles = ((tileNum = 19) => {
-  const tiles = new Array(tileNum)
-  const row = 5
-  let count = 0
-  for(let i = 1; i <= row; i++) {
-    for(let j = 1; j <= row - Math.abs((row - 2) - i); j++) {
-      // 座標のずらし方は適当
-      tiles[count] = new Tile(0, 6, j * 92 + 45 * Math.abs((row - 2) - i) - 20, i * 80)
-      count++
-    }
-  }
-  return tiles
-})
-
 class Player {
   // 資源は未実装
   constructor(id, name, resourceNum) {
@@ -92,5 +78,35 @@ class Player {
 
   setResource(resourceId, num) {
     this.resource[resourceId] = num
+  }
+}
+
+class Base {
+  constructor() {
+  }
+  init() {
+    return this.GenerateTiles()
+  }
+}
+
+class Local extends Base{
+  GenerateTiles(tileNum = 19) {
+    const tiles = new Array(tileNum)
+    const row = 5
+    let count = 0
+    for(let i = 1; i <= row; i++) {
+      for(let j = 1; j <= row - Math.abs((row - 2) - i); j++) {
+        // 座標のずらし方は適当
+        tiles[count] = new Tile(0, 6, j * 92 + 45 * Math.abs((row - 2) - i) - 20, i * 80)
+        count++
+      }
+    }
+    return tiles
+  }
+}
+
+class Server extends Base{
+  GenerateTiles() {
+    // 未実装
   }
 }
