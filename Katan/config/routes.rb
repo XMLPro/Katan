@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
-  get 'buildings/index'
-
-  get 'buildings/new'
-
-  get 'buildings/show'
+  resources :buildings
+  resources :sides
 
   get 'wssample/index'
   root 'tops#index'
