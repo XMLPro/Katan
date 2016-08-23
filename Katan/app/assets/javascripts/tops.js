@@ -15,4 +15,14 @@ $(() => {
     pm.paintHexagons(5, tiles)            // タイルの描画
     pm.paintNum(tiles)                    // 数字の描画
   }, 1000 / 60)
+
+   var ws = new WebSocketRails("localhost:3000/websocket");
+    $("form").on("submit", function (e) {
+      ws.trigger("chat", $("#msg").val());
+      e.preventDefault();
+    });
+
+    ws.bind("chat_receive", function (data) {
+      $("#msg_view").prepend("<li>" + data + "</li>")
+    })
 })
