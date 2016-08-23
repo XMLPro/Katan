@@ -1,4 +1,4 @@
-{
+$(() => {
   "use strict"
   // JavaなどでいうMain
   const ctx = document.getElementById("map").getContext("2d")
@@ -15,4 +15,4 @@
     pm.paintHexagons(5, tiles)            // タイルの描画
     pm.paintNum(tiles)                    // 数字の描画
   }, 1000 / 60)
-}
+})
