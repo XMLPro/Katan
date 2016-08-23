@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'buildings/index'
+
+  get 'buildings/new'
+
+  get 'buildings/show'
+
   get 'wssample/index'
   root 'tops#index'
   # The priority is based upon order of creation: first created -> highest priority.
