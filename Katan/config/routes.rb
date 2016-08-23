@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'sides/create'
+
+  get 'sides/new'
+
   get 'wssample/index'
   root 'tops#index'
   # The priority is based upon order of creation: first created -> highest priority.
