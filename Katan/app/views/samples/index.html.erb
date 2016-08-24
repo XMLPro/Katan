@@ -1,0 +1,12 @@
+<h1>Samples#index</h1>
+<p>Find me in app/views/samples/index.html.erb</p>
+
+<%= link_to 'get (/samples/sub1)', samples_sub1_path, remote: true %> |
+<%= link_to 'show models (/samples/sub2)', samples_sub2_path, remote: true %>
+<%= form_for @sample, remote: true do |f| %>
+    <div class="field">
+      <%= f.text_field 'name', placeholder: 'create data enter' %>
+    </div>
+<% end %>
+
+<div id="ajax-result"></div>

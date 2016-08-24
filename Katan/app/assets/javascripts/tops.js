@@ -1,3 +1,4 @@
+if(document.getElementById("map"))
 $(() => {
   "use strict"
   // JavaなどでいうMain

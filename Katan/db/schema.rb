@@ -11,10 +11,55 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160623110517) do
+ActiveRecord::Schema.define(version: 20160823124016) do
 
-  create_table "test_models", force: :cascade do |t|
+  create_table "game_buildings", force: :cascade do |t|
+    t.string   "building_type"
+    t.integer  "user_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  create_table "game_fields", force: :cascade do |t|
+    t.integer  "gameresource_id"
+    t.integer  "number"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "game_intersections", force: :cascade do |t|
+    t.integer  "gamebuilding_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "game_maps", force: :cascade do |t|
+    t.integer  "gamefield_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "game_resources", force: :cascade do |t|
+    t.string   "resources_type"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  create_table "game_sides", force: :cascade do |t|
+    t.integer  "gamebuilding_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "samples", force: :cascade do |t|
     t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "point"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

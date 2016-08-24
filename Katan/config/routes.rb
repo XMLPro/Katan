@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  get 'samples' => 'samples#index'
+  post 'samples' => 'samples#create'
+  get 'samples/sub1'
+  get 'samples/sub2'
+
   get 'wssample/index'
   root 'tops#index'
   # The priority is based upon order of creation: first created -> highest priority.

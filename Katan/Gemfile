@@ -46,4 +46,4 @@ group :development do
 end
 
 gem 'websocket-rails'
-
+gem 'awesome_print'
