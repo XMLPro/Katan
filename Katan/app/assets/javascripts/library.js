@@ -43,8 +43,8 @@ class Tile {
     this.y = y
     this.coordinates = new Array(6)
     for (var i = 0; i < 6; i++) {
-      this.coordinates[i] = new Array(x+50*Math.cos(i*Math.PI/3+Math.PI/2)
-        ,y+50*Math.sin(i*Math.PI/3+Math.PI/2))
+      this.coordinates[i] = new Array(x+52.5*Math.cos(i*Math.PI/3+Math.PI/2)
+        ,y+52.5*Math.sin(i*Math.PI/3+Math.PI/2))
     }
 
 
@@ -104,7 +104,7 @@ class Local extends Base{
     for(let i = 1; i <= row; i++) {
       for(let j = 1; j <= row - Math.abs((row - 2) - i); j++) {
         // 座標のずらし方は適当
-        tiles[count] = new Tile(0, 12, j * 92 +45 * Math.abs((row - 2) - i) - 20, i * 80)
+        tiles[count] = new Tile(0, 12, j * 92 +45 * Math.abs((row - 2) - i) -20, i * 80)
         count++
       }
     }
