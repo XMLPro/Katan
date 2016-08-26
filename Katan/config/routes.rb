@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :buildings
   resources :sides
+  get 'samples' => 'samples#index'
+  post 'samples' => 'samples#create'
+  get 'samples/sub1'
+  get 'samples/sub2'
 
   get 'wssample/index'
   root 'tops#index'

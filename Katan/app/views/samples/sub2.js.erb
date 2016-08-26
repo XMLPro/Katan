@@ -1,0 +1,4 @@
+var $ajax_result = $('#ajax-result');
+<% @samples.each do |sample| %>
+  $ajax_result.prepend('<p><%= "#{sample.id} : #{sample.name}" %></p>');
+<% end %>
