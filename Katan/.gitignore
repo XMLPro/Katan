@@ -17,3 +17,4 @@
 /tmp
 
 .idea/
+db/schema.rb
