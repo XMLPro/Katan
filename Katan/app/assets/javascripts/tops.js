@@ -27,6 +27,19 @@ $(() => {
       }
     }
   }
+  let div = document.createElement("div");
+  div = $(div);
+  let map_coordinate = $('#map').offset();
+  let x = map_coordinate["left"] - 10;
+  let y = map_coordinate["top"] - 10;
+  div
+    .css("background", "orange")
+    .css("width", "20px")
+    .css("height", "20px")
+    .css("position", "fixed")
+    .css("left", x + rects[0][0] + "px")
+    .css("top", y + rects[0][1] + "px");
+  $('body').append(div);
   // ゲームループ とりあえず60FPSぐらいで描画
   setInterval(() => {
     pm.paintHexagons(5, tiles)            // タイルの描画
