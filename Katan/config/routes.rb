@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  resources :buildings
+  get 'game_buildings/all'
+  patch 'game_buildings/update'
+  post 'game_buildings/destroy'
+  resources :game_buildings
   resources :sides
 
   get 'wssample/index'
