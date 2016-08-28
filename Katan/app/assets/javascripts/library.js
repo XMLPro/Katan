@@ -117,3 +117,8 @@ class Server extends Base{
     // 未実装
   }
 }
+
+function websocket(){
+    if(!ws) return new WebSocketRails("localhost:3000/websocket")
+    else return ws
+}

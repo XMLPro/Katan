@@ -1,4 +1,6 @@
+var ws
 $(() => {
+    if(document.getElementById("map")){
   "use strict"
   // JavaなどでいうMain
   const ctx = document.getElementById("map").getContext("2d")
@@ -34,11 +36,12 @@ $(() => {
     ctx.fillStyle = '#FF3333'
     for (let value of rects) {
       ctx.fillRect(value[0]-10, value[1]-10, 20, 20)
-    
+
     }
   }, 1000 / 60)
+    }
 
-   var ws = new WebSocketRails("localhost:3000/websocket");
+    ws = websocket();
     $("form").on("submit", function (e) {
       ws.trigger("chat", $("#msg").val());
       e.preventDefault();
