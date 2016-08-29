@@ -12,12 +12,8 @@ class GameBuildingsController < ApplicationController
   end
 
   def update
-    begin
-      building = GameBuilding.find params[:game_building][:id]
-      @result = building.update(building_params) ? :success : :failed
-    rescue ActiveRecord::RecordNotFound
-      @result = :failed
-    end
+    building = GameBuilding.find_by id: params[:game_building][:id]
+    @result = (building and building.update building_params) ? :success : :failed
   end
 
   def create
@@ -26,11 +22,11 @@ class GameBuildingsController < ApplicationController
   end
 
   def destroy
-    begin
-      building = GameBuilding.find params[:game_building][:id]
+    building = GameBuilding.find_by id: params[:game_building][:id]
+    if building
       building.destroy
       @result = :success
-    rescue ActiveRecord::RecordNotFound
+    else
       @result = :failed
     end
   end

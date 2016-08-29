@@ -1,5 +1,5 @@
 let $buildings = $('#buildings');
 $buildings.html("");
 <% @buildings.each do |building| %>
-  $buildings.prepend("<p><%= "#{building.building_type} : #{building.user_id}" %></p>");
+  $buildings.prepend("<p><%= "#{building.id} : #{building.building_type} : #{building.user_id}" %></p>");
 <% end %>
