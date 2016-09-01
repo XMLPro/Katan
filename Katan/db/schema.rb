@@ -14,10 +14,10 @@
 ActiveRecord::Schema.define(version: 20160818060705) do
 
   create_table "game_buildings", force: :cascade do |t|
-    t.string   "type"
+    t.string   "building_type"
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "game_fields", force: :cascade do |t|
@@ -40,25 +40,15 @@ ActiveRecord::Schema.define(version: 20160818060705) do
   end
 
   create_table "game_resources", force: :cascade do |t|
-    t.string   "type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "resources_type"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "game_sides", force: :cascade do |t|
-    t.integer  "gamebuilding_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  create_table "resources", force: :cascade do |t|
-    t.integer  "lumber"
-    t.integer  "brick"
-    t.integer  "wool"
-    t.integer  "grain"
-    t.integer  "ore"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "game_building_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "users", force: :cascade do |t|
