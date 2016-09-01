@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   patch 'game_buildings/update'
   post 'game_buildings/destroy'
   resources :game_buildings
+
+  get 'game_sides/all'
+  patch 'game_sides/update'
+  post 'game_sides/destroy'
   resources :game_sides
 
   get 'wssample/index'
