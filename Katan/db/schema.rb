@@ -40,9 +40,9 @@ ActiveRecord::Schema.define(version: 20160902121324) do
   end
 
   create_table "game_resources", force: :cascade do |t|
-    t.string   "resources_type"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.integer  "resource_type_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "game_sides", force: :cascade do |t|
