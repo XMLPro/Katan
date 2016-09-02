@@ -5,5 +5,5 @@ one:
   user_id: 1
 
 two:
-  type: 
+  building_type:
   user_id: 1
