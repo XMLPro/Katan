@@ -1,6 +1,7 @@
 class GameBuildingsController < ApplicationController
   def index
     @building = GameBuilding.new
+    @users = User.all
   end
 
   def all

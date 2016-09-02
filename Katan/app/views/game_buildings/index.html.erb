@@ -4,7 +4,7 @@
 <%= link_to 'reload', game_buildings_all_path, remote: true %>
 <%= form_for @building, remote: true do |f| %>
     <%= f.text_field 'building_type' %>
-    <%= f.text_field 'user_id' %>
+    <%= f.select 'user_id', @users.map{|t| [t.name, t.id]} %>
     <%= f.submit 'create' %>
 <% end %>
 
