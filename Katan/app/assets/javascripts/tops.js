@@ -29,33 +29,26 @@ $(() => {
       }
     }
   }
-  let div = document.createElement("div");
-  div = $(div);
-  let map_coordinate = $('#map').offset();
-  let x = map_coordinate["left"] - 10;
-  let y = map_coordinate["top"] - 10;
-  div
-    .css("background", "orange")
-    .css("width", "20px")
-    .css("height", "20px")
-    .css("position", "fixed")
-    .css("left", x + rects[0][0] + "px")
-    .css("top", y + rects[0][1] + "px");
-  $('body').append(div);
+        let intersections = $(".intersection")
+        let map_coordinate = $('#map').offset();
+        let x = map_coordinate["left"] - 10;
+        let y = map_coordinate["top"] - 10;
+        for(let i = 0; i < intersections.length; i++){
+            $(intersections[i])
+              .css("width", "20px")
+              .css("height", "20px")
+              .css("left", x + rects[i][0] + "px")
+              .css("top", y + rects[i][1] + "px");
+        }
   // ゲームループ とりあえず60FPSぐらいで描画
   setInterval(() => {
     pm.paintHexagons(5, tiles)            // タイルの描画
     pm.paintNum(tiles)                    // 数字の描画
-    ctx.fillStyle = '#FF3333'
-    for (let value of rects) {
-      ctx.fillRect(value[0]-10, value[1]-10, 20, 20)
-
-    }
   }, 1000 / 60)
     }
 
     ws = websocket();
-    $("form").on("submit", function (e) {
+    $("#form").on("submit", function (e) {
       ws.trigger("chat", $("#msg").val());
       e.preventDefault();
     });

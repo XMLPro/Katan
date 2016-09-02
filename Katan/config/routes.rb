@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  post 'chats/msg'
+
   get 'game_buildings/all'
   patch 'game_buildings/update'
   post 'game_buildings/destroy'
