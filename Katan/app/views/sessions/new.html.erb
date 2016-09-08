@@ -1,7 +1,7 @@
-<h1>Login</h1>
+<h1>Login/Logout Page</h1>
 
 
-<% if logged_in?%>
+<% if logged_in? %>
 	<div>
   	<%= form_for(:session, url:logout_path, method: :delete) do |f| %>
     <%= f.submit "Logout"%>
@@ -9,6 +9,7 @@
 	</div>
 <% else %>
 	<div>
+	Name: 12文字以内
 		<%= form_for(:session, url:login_path) do |f| %>
 			<%= f.label :name %>
 			<%= f.text_field :name  %>
