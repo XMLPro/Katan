@@ -1,10 +1,10 @@
+<% if logged_in? %>
 <div class="line">
-
   <div class="inline">
-    <div class="building">building<br>道<br>開拓地<br>都市</div>
+    <div class="building">building<br>道<br>開拓地<br>都市<br>
+    <%= current_user.name %></div>
     <div class="trade">貿易関係</div>
   </div>
-
   <canvas id="map" width="500" height="500"></canvas>
   <div class="chat">
     <form>
@@ -22,3 +22,8 @@
   <div class="info3">info3</div>
   <div class="info4">info4</div>
 </div>
+<% else %>
+
+<h1>Login Faild!</h1>
+<%= link_to "Retry_Login", login_url %>
+<% end %>
