@@ -1,18 +1,11 @@
-<h1>Signup or Login</h1>
+<h1>Login</h1>
 
-<div>
-	<%= form_for(:sessiion, url:signup_path) do |f| %>
-		<%= f.label :name %>
-		<%= <%= f.text_field :name  %>>
-		<%= submit "Signup"%>
-	<% end %>
-</div>
 
 
 <div>
-	<%= form_for(:sessiion, url:login_path) do |f| %>
+	<%= form_for(:session, url:login_path) do |f| %>
 		<%= f.label :name %>
-		<%= <%= f.text_field :name  %>>
-		<%= submit "Login"%>
+		<%= f.text_field :name  %>
+		<%= f.submit "Login"%>
 	<% end %>
 </div>
