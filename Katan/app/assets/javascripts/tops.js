@@ -1,3 +1,4 @@
+var ws
 $(() => {
     "use strict"
     // JavaなどでいうMain
@@ -27,4 +28,5 @@ $(() => {
     ws.bind("chat_receive", function (data) {
         $("#msg_view").prepend("<li>" + data + "</li>")
     })
+    
 })

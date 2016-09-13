@@ -1,0 +1,22 @@
+<h1>Buildings#index</h1>
+<p>Find me in app/views/buildings/index.html.erb</p>
+
+<%= link_to 'reload', game_buildings_all_path, remote: true %>
+<%= form_for @building, remote: true do |f| %>
+    <%= f.text_field 'building_type' %>
+    <%= f.select 'user_id', @users.map{|t| [t.name, t.id]} %>
+    <%= f.submit 'create' %>
+<% end %>
+
+<%= form_for @building, url: game_buildings_update_path, method: :patch, remote: true do |f| %>
+    <%= f.text_field 'building_type' %>
+    <%= f.text_field 'user_id' %>
+    <%= f.text_field 'id' %>
+    <%= f.submit 'update' %>
+<% end %>
+
+<%= form_for @building, url: game_buildings_destroy_path, remote: true do |f| %>
+    <%= f.text_field 'id' %>
+    <%= f.submit 'delete' %>
+<% end %>
+<div id="buildings"></div>
