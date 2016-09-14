@@ -3,4 +3,5 @@ class User < ActiveRecord::Base
     length: { maximum: 12 },
     uniqueness: true
   has_many :game_buildings
+  has_many :game_resources
 end

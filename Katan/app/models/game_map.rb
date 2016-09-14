@@ -1,3 +1,3 @@
 class GameMap < ActiveRecord::Base
-  belongs_to :game_field
+  has_many :game_fields
 end
