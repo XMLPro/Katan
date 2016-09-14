@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  get 'game_buildings/all'
+  patch 'game_buildings/update'
+  post 'game_buildings/destroy'
+  resources :game_buildings
+
+  get 'game_sides/all'
+  patch 'game_sides/update'
+  post 'game_sides/destroy'
+  resources :game_sides
+
   get  'login' => 'sessions#new'
   post 'login' => 'sessions#create'
   delete 'logout' => 'sessions#destroy'
