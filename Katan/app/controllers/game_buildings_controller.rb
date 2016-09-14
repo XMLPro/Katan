@@ -19,7 +19,13 @@ class GameBuildingsController < ApplicationController
 
   def create
     build = GameBuilding.new building_params
-    @result = build.save ? :success : :failed
+    @result = if build.save
+                field = GameIntersection.find_by id: params[:intersection_id]
+                field.game_building = build
+                :success
+              else
+                :failed
+              end
   end
 
   def destroy
@@ -34,6 +40,7 @@ class GameBuildingsController < ApplicationController
 
   private
     def building_params
-      params.require(:game_building).permit(:building_type, :user_id)
+      params.require(:game_building).permit(:user_id)
+      # params.require(:game_building).permit(:building_type, :user_id)
     end
 end

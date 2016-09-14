@@ -41,10 +41,8 @@ $(() => {
                 .css("top", y + rects[i][1] + "px");
         }
         // ゲームループ とりあえず60FPSぐらいで描画
-        setInterval(() => {
-            pm.paintHexagons(5, tiles)            // タイルの描画
-            pm.paintNum(tiles)                    // 数字の描画
-        }, 1000 / 60)
+        pm.paintHexagons(5, tiles)            // タイルの描画
+        pm.paintNum(tiles)                    // 数字の描画
     }
 
     ws = websocket();
@@ -52,8 +50,4 @@ $(() => {
         ws.trigger("chat", $("#msg").val());
         e.preventDefault();
     });
-
-    ws.bind("chat_receive", function (data) {
-        $("#msg_view").prepend("<li>" + data + "</li>")
-    })
 })
