@@ -19,7 +19,6 @@ class GameBuildingsController < ApplicationController
 
   def create
     intersection = GameIntersection.find_by id: params[:intersection_id]
-    p intersection.game_building
     build = intersection.game_building || GameBuilding.new(building_params)
     build.building_type = BuildingType.find_by(
         name: build.building_type ? :special : :normal)

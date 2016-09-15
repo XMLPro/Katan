@@ -3,6 +3,7 @@ class CreateVertices < ActiveRecord::Migration
     create_table :vertices do |t|
       t.integer :game_field_id
       t.integer :game_intersection_id
+      t.integer :next_intersection_id
 
       t.timestamps null: false
     end
