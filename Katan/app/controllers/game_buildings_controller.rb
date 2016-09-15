@@ -19,10 +19,13 @@ class GameBuildingsController < ApplicationController
 
   def create
     build = GameBuilding.new building_params
+    build.building_type = BuildingType.find_by name: :normal
     @result = if build.save
                 intersection = GameIntersection.find_by id: params[:intersection_id]
                 intersection.game_building = build
                 @intersection_pos = intersection.position
+                # @building_type = build.building_type.name
+                @building_type = :normal
                 :success
               else
                 :failed
