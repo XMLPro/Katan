@@ -1,3 +1,6 @@
 ws.trigger("buildings.create", {
-  result: "<%= @result %>"
+  result: "<%= @result %>",
+  <% if defined? @intersection_pos%>
+    intersection_pos: <%= @intersection_pos %>
+  <% end %>
 });

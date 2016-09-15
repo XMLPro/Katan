@@ -8,8 +8,8 @@ module TopsHelper
       GameField.create game_map: map, number: i, resource_type: tree
     end
     fields = map.game_fields
-    relations.each do |v|
-      intersection = GameIntersection.create game_map: map
+    relations.each_with_index do |v, p|
+      intersection = GameIntersection.create game_map: map, position: p
       v.each do |i|
         Vertex.create game_field: fields[i], game_intersection: intersection
       end

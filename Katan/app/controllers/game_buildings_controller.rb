@@ -20,8 +20,9 @@ class GameBuildingsController < ApplicationController
   def create
     build = GameBuilding.new building_params
     @result = if build.save
-                field = GameIntersection.find_by id: params[:intersection_id]
-                field.game_building = build
+                intersection = GameIntersection.find_by id: params[:intersection_id]
+                intersection.game_building = build
+                @intersection_pos = intersection.position
                 :success
               else
                 :failed
