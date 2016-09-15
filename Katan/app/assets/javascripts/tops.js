@@ -19,8 +19,9 @@ $(() => {
     pm.paintNum(tiles)                    // 数字の描画
 
     var ws = new WebSocketRails("localhost:3000/websocket");
-    $("form").on("submit", function (e) {
+    $(document).on("click", "#btn",function (e) {
         ws.trigger("chat", $("#msg").val());
+        $("#msg").val().reset();
         e.preventDefault();
     });
 
