@@ -1,7 +1,10 @@
 class WsGameBuildingsController < WebsocketRails::BaseController
   def create
-    # broadcast_message :notice, message
-    broadcast_message :draw_building, message
+    if message[:result]
+      broadcast_message :draw_building, message
+    else
+      send_message :notice, {result: :failed}
+    end
   end
 
   def update

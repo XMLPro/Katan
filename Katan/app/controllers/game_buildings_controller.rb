@@ -18,18 +18,21 @@ class GameBuildingsController < ApplicationController
   end
 
   def create
-    build = GameBuilding.new building_params
-    build.building_type = BuildingType.find_by name: :normal
-    @result = if build.save
-                intersection = GameIntersection.find_by id: params[:intersection_id]
-                intersection.game_building = build
-                @intersection_pos = intersection.position
-                # @building_type = build.building_type.name
-                @building_type = :normal
-                :success
-              else
-                :failed
-              end
+    intersection = GameIntersection.find_by id: params[:intersection_id]
+    p intersection.game_building
+    build = intersection.game_building || GameBuilding.new(building_params)
+    build.building_type = BuildingType.find_by(
+        name: build.building_type ? :special : :normal)
+    @data = {}
+    @data[:result] = if build.save
+                       intersection.update game_building: build
+                       @data[:intersection_pos] = intersection.position
+                       # @building_type = build.building_type.name
+                       @data[:building_type] = build.building_type.name
+                       true
+                     else
+                       false
+                     end
   end
 
   def destroy

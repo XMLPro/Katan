@@ -22,6 +22,7 @@ module TopsHelper
   def map_clear
     GameMap.delete_all
     GameField.delete_all
+    GameBuilding.delete_all
     Vertex.delete_all
     GameIntersection.delete_all
   end

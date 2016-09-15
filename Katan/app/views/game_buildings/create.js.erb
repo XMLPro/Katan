@@ -1,7 +1,1 @@
-ws.trigger("buildings.create", {
-  result: "<%= @result %>",
-  <% if defined? @intersection_pos%>
-    intersection_pos: <%= @intersection_pos %>,
-    building_type: "<%= @building_type %>"
-  <% end %>
-});
+ws.trigger("buildings.create", <%= @data.to_json.html_safe %>);
