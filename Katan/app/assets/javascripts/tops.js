@@ -31,14 +31,12 @@ $(() => {
         }
         let intersections = $(".intersection")
         let map_coordinate = $('#map').offset();
-        let x = map_coordinate["left"] - 10;
-        let y = map_coordinate["top"] - 10;
+        let x = map_coordinate["left"];
+        let y = map_coordinate["top"];
         for(let i = 0; i < intersections.length; i++){
             $(intersections[i])
-                .css("width", "20px")
-                .css("height", "20px")
-                .css("left", x + rects[i][0] + "px")
-                .css("top", y + rects[i][1] + "px");
+                .css("left", x + rects[i][0] - intersections[i].width / 2 + "px")
+                .css("top", y + rects[i][1] - intersections[i].height / 2 + "px");
         }
         // ゲームループ とりあえず60FPSぐらいで描画
         pm.paintHexagons(5, tiles)            // タイルの描画
