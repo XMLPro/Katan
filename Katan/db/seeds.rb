@@ -13,4 +13,4 @@ ResourceType.create name: :soil
 
 BuildingType.create name: :normal
 BuildingType.create name: :special
-BuildingType.create name: :road
+BuildingType.create name: :bridge

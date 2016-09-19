@@ -36,7 +36,7 @@ class GameBuildingsController < ApplicationController
       side = GameSide.find_by id: params[:side_id]
       unless side.game_building
         build = GameBuilding.new(building_params)
-        build.building_type = BuildingType.find_by(name: :road)
+        build.building_type = BuildingType.find_by(name: :bridge)
         @data = {place: :side}
         @data[:result] = if build.save
                            side.update game_building: build
