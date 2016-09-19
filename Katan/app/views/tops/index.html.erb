@@ -9,14 +9,14 @@
   <% @sides.each do |side| %>
       <%= form_tag game_buildings_path, remote: true do %>
           <%= hidden_field_tag :side_id, side.id %>
-          <%= image_submit_tag 'road.png', class: :side %>
+          <%= image_submit_tag side.game_building&.building_type&.name || 'road.png', class: :side %>
       <% end %>
   <% end %>
 
   <% @intersections.each do |intersection| %>
       <%= form_tag game_buildings_path, remote: true do %>
           <%= hidden_field_tag :intersection_id, intersection.id %>
-          <%= image_submit_tag 'nothing.png', class: :intersection %>
+          <%= image_submit_tag intersection.game_building&.building_type&.name || 'nothing.png', class: :intersection %>
       <% end %>
   <% end %>
   <div class="chat">
