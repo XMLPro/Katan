@@ -18,20 +18,11 @@ class GameBuildingsController < ApplicationController
   end
 
   def create
-    intersection = GameIntersection.find_by id: params[:intersection_id]
-    build = intersection.game_building || GameBuilding.new(building_params)
-    build.building_type = BuildingType.find_by(
-        name: build.building_type ? :special : :normal)
-    @data = {}
-    @data[:result] = if build.save
-                       intersection.update game_building: build
-                       @data[:intersection_pos] = intersection.position
-                       # @building_type = build.building_type.name
-                       @data[:building_type] = build.building_type.name
-                       true
-                     else
-                       false
-                     end
+    if params[:intersection_id]
+      create_from_intersection
+    elsif params[:side_id]
+      create_from_side
+    end
   end
 
   def destroy
@@ -46,7 +37,41 @@ class GameBuildingsController < ApplicationController
 
   private
     def building_params
-      params.require(:game_building).permit(:user_id)
-      # params.require(:game_building).permit(:building_type, :user_id)
+      # params[:user_id] = current_user
+      # params.require(:game_building).permit(:user_id)
+      {user: current_user}
+    end
+
+    def create_from_intersection
+      intersection = GameIntersection.find_by id: params[:intersection_id]
+      build = intersection.game_building || GameBuilding.new(building_params)
+      build.building_type = BuildingType.find_by(
+          name: build.building_type ? :special : :normal)
+      @data = {place: :intersection}
+      @data[:result] = if build.save
+                         intersection.update game_building: build
+                         @data[:position] = intersection.position
+                         @data[:building_type] = build.building_type.name
+                         true
+                       else
+                         false
+                       end
+    end
+
+    def create_from_side
+      side = GameSide.find_by id: params[:side_id]
+      unless side.game_building
+        build = GameBuilding.new(building_params)
+        build.building_type = BuildingType.find_by(name: :bridge)
+        @data = {place: :side}
+        @data[:result] = if build.save
+                           side.update game_building: build
+                           @data[:position] = side.position
+                           @data[:building_type] = build.building_type.name
+                           true
+                         else
+                           false
+                         end
+      end
     end
 end

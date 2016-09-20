@@ -5,6 +5,7 @@ class CreateGameSides < ActiveRecord::Migration
       t.integer :game_map_id
       t.integer :positionA
       t.integer :positionB
+      t.integer :position
 
       t.timestamps null: false
     end

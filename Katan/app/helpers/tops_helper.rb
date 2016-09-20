@@ -13,8 +13,8 @@ module TopsHelper
         end
       end
 
-      side_relations.each do |relation|
-        GameSide.create game_map: map, positionA: relation[0], positionB: relation[1]
+      side_relations.each_with_index do |relation, index|
+        GameSide.create game_map: map, positionA: relation[0], positionB: relation[1], position: index
       end
 
       19.times do |i|
