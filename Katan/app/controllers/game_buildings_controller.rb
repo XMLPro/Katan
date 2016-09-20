@@ -18,11 +18,12 @@ class GameBuildingsController < ApplicationController
   end
 
   def create
-    if params[:intersection_id]
-      create_from_intersection
-    elsif params[:side_id]
-      create_from_side
-    end
+    @data = {}
+    @data[:result] = if params[:intersection_id]
+                       create_from_intersection
+                     elsif params[:side_id]
+                       create_from_side
+                     end
   end
 
   def destroy
@@ -44,34 +45,85 @@ class GameBuildingsController < ApplicationController
 
     def create_from_intersection
       intersection = GameIntersection.find_by id: params[:intersection_id]
+
+      #建物が建つか？
+      possible = false
+      vertices = intersection.vertices
+      vertices.each do |v|
+        if (b = v.game_side&.game_building) && b.user == current_user
+          possible = true
+          break
+        end
+      end
+
+      if possible
+        vertices.each do |v|
+          if (id = v.next_intersection_id) && GameIntersection.find_by_id(id).game_building
+            return false
+          end
+        end
+      else
+        return false
+      end
+
+      #建物を建てる
       build = intersection.game_building || GameBuilding.new(building_params)
-      build.building_type = BuildingType.find_by(
-          name: build.building_type ? :special : :normal)
-      @data = {place: :intersection}
-      @data[:result] = if build.save
-                         intersection.update game_building: build
-                         @data[:position] = intersection.position
-                         @data[:building_type] = build.building_type.name
-                         true
-                       else
-                         false
-                       end
+      normal = BuildingType.find_by_name :normal
+      building_type = case build.building_type
+                    when nil
+                      normal
+                    when normal
+                      BuildingType.find_by_name :special
+                    else
+                      nil
+                  end
+      return false unless building_type
+      build.building_type = building_type
+      @data[:place] = :intersection
+      if build.save
+        intersection.update game_building: build
+        @data[:position] = intersection.position
+        @data[:building_type] = build.building_type.name
+        true
+      else
+        false
+      end
     end
 
     def create_from_side
       side = GameSide.find_by id: params[:side_id]
       unless side.game_building
+        #建物が建つか？
+        possible = false
+        roads = current_user.game_buildings.where(building_type: BuildingType.find_by_name(:bridge))
+        if roads.count >= 2
+          current_user_id = current_user.id
+          intersection_a = GameIntersection.find_by_position(side.positionA)
+          intersection_b = GameIntersection.find_by_position(side.positionB)
+          sides = intersection_a.vertices.map{|v| v.game_side&.game_building&.user_id} + intersection_b.vertices.map{|v| v.game_side&.game_building&.user_id}
+          sides.each do |s|
+            p s
+            if s == current_user_id
+              possible = true
+              break
+            end
+          end
+
+          return false unless possible
+        end
+
+        #建物を建てる
         build = GameBuilding.new(building_params)
         build.building_type = BuildingType.find_by(name: :bridge)
-        @data = {place: :side}
-        @data[:result] = if build.save
-                           side.update game_building: build
-                           @data[:position] = side.position
-                           @data[:building_type] = build.building_type.name
-                           true
-                         else
-                           false
-                         end
+        @data[:place] = :side
+        if build.save
+          side.update game_building: build
+          @data[:position] = side.position
+          @data[:building_type] = build.building_type.name
+          true
+        else
+          false
+        end
       end
     end
 end
