@@ -53,3 +53,16 @@ body {
   width: calc(100% / 4);
   border: 1px solid #000000;
 }
+
+.intersection{
+  width: 30px;
+  height: 30px;
+  position: absolute;
+}
+
+.side{
+  transform-origin: 50% 50%;
+  height: 10px;
+  position: absolute;
+  background: orange;
+}

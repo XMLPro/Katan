@@ -1,0 +1,5 @@
+let $sides = $('#sides');
+$sides.html("");
+<% @sides.each do |side| %>
+  $sides.prepend("<p><%= "#{side.id} : #{side.gamebuilding_id}" %></p>");
+<% end %>

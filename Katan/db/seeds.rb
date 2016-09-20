@@ -5,3 +5,12 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+ResourceType.create name: :grass
+ResourceType.create name: :iron
+ResourceType.create name: :tree
+ResourceType.create name: :soil
+
+BuildingType.create name: :normal
+BuildingType.create name: :special
+BuildingType.create name: :bridge
