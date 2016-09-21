@@ -1,5 +1,5 @@
 module ApplicationHelper
   def dice
-    1
+    return rand(1..6) + rand(1..6)
   end
 end
