@@ -6,4 +6,7 @@ class TopsController < ApplicationController
     @intersections = @map.game_intersections
     @sides = @map.game_sides
   end
+
+  def turn_end
+  end
 end
