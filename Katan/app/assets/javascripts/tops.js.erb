@@ -80,7 +80,10 @@ $(() => {
 
     ws = websocket();
     $("#form").on("submit", function (e) {
-        ws.trigger("chat", $("#msg").val());
+        if ($("#msg").val()) {
+            ws.trigger("chat", $("#msg").val());
+        }
+        $("#msg").val("");
         e.preventDefault();
     });
 })
