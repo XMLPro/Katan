@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  post 'tops/turn_end'
+
   post 'chats/msg'
   post 'chats/build'
 
