@@ -4,6 +4,7 @@
     <div class="building">building<br>道<br>開拓地<br>都市<br>
     <%= current_user.name %><br>
     サイコロの目は、<%= dice %>でした！</div>
+    <%= link_to 'get_resource' , tops_get_resources_path %>
     <div class="trade">貿易関係</div>
   </div>
   <canvas id="map" width="500" height="500"></canvas>
@@ -30,7 +31,7 @@
 </div>
 
 <div class="info-wrap">
-  <div class="info1">info1</div>
+  <div class="info1"><%= GameResource.all %></div>
   <div class="info2">info2</div>
   <div class="info3">info3</div>
   <div class="info4">info4</div>
