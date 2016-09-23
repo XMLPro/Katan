@@ -44,6 +44,8 @@ class GameBuildingsController < ApplicationController
     end
 
     def create_from_intersection
+      # ここに建物が建つと同時に資源を消費するコードを書く
+      # 資源が足りているかどうかも
       intersection = GameIntersection.find_by id: params[:intersection_id]
 
       #建物が建つか？
