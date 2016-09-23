@@ -47,6 +47,10 @@ $(() => {
         let x = map_coordinate["left"];
         let y = map_coordinate["top"];
 
+        $("#turn-end").css({
+            left: x, top: y
+        })
+
         for(let i = 0; i < sides.length; i++){
             let sr = side_relations[i]
             let x0 = rects[sr[0]][0]
