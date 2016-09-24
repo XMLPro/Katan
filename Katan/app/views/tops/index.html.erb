@@ -22,6 +22,12 @@
       <% end %>
   <% end %>
 
+  <% @fields.each do |field| %>
+      <span class="field" resource_type="<%= field.resource_type.name %>">
+        <%= field.number %>
+      </span>
+  <% end %>
+
   <%= form_tag tops_turn_end_path, remote: true do  %>
     <%= submit_tag 'ターン終了', class: 'turn-end', id: 'turn-end' %>
   <% end %>

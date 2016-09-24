@@ -2,10 +2,22 @@
 class PaintMap {
   constructor(ctx) {
     this.ctx = ctx;
+      this.x = 0
+      this.y = 0
   }
+
+  setPosition(x, y){
+      this.x = x
+      this.y = y
+  }
+
+  getPosition(){
+      return [this.x, this.y]
+  }
+
   // 六角形単体の描画を行う
-  paintHexagon(x, y, r) {
-    this.ctx.fillStyle = '#55ff55'
+  paintHexagon(color, x, y, r) {
+    this.ctx.fillStyle = color
     this.ctx.beginPath()
     for(let i = 0; i <= 2 * Math.PI; i += 2 * Math.PI / 6) {
       this.ctx.lineTo(x + Math.sin(i) * r, y + Math.cos(i) * r)   // 六角形の各点の描画
@@ -15,8 +27,8 @@ class PaintMap {
     this.ctx.fill()
   }
 
-  paintHexagons(row = 5, tiles) {
-    tiles.forEach(tile => this.paintHexagon(tile.getX(),tile.getY(), 50))
+  paintHexagons(row = 5, tiles, colorPack) {
+    tiles.forEach(tile => this.paintHexagon(colorPack[tile.getField().attr("resource_type")], tile.getX(),tile.getY(), 50))
   }
 
   paintNum(tiles, arcColor = '#eeeeee', numColor = '#444444') {
@@ -29,31 +41,29 @@ class PaintMap {
       this.ctx.fill()
       this.ctx.stroke()
       this.ctx.closePath()
-      this.ctx.fillStyle = numColor
-      this.ctx.fillText(tile.getNumber(), tile.getX() - 5, tile.getY() + 5, 10)
+        tile.getField().css({
+            left: tile.getX() + this.x - tile.getField().width()/2,
+            top: tile.getY() + this.y - tile.getField().height()/2
+        })
     })
   }
 }
 
 class Tile {
-  constructor(resourceId, number, x, y) {
-    this.resourceId = resourceId
-    this.number = number
+  constructor(field, x, y) {
+    this.field = field
     this.x = x
     this.y = y
     this.coordinates = new Array(6)
     for (var i = 0; i < 6; i++) {
-      this.coordinates[i] = new Array(x+52.5*Math.cos(i*Math.PI/3+Math.PI/2)
-        ,y+52.5*Math.sin(i*Math.PI/3+Math.PI/2))
+      this.coordinates[i] = [x+52.5*Math.cos(i*Math.PI/3+Math.PI/2),
+          y+52.5*Math.sin(i*Math.PI/3+Math.PI/2)]
     }
 
 
   }
-  getResourceId() {
-    return this.resourceId
-  }
-  getNumber() {
-    return this.number
+  getField() {
+    return this.field
   }
   getX() {
     return this.x
@@ -91,20 +101,21 @@ class Player {
 class Base {
   constructor() {
   }
-  init() {
-    return this.GenerateTiles()
+  init(fields) {
+    return this.GenerateTiles(fields)
   }
 }
 
 class Local extends Base{
-  GenerateTiles(tileNum = 19) {
+  GenerateTiles(fields) {
+    const tileNum = fields.length
     const tiles = new Array(tileNum)
     const row = 5
     let count = 0
     for(let i = 1; i <= row; i++) {
       for(let j = 1; j <= row - Math.abs((row - 2) - i); j++) {
         // 座標のずらし方は適当
-        tiles[count] = new Tile(0, 12, j * 92 +45 * Math.abs((row - 2) - i) -20, i * 80)
+        tiles[count] = new Tile($(fields[count]), j * 92 +45 * Math.abs((row - 2) - i) -20, i * 80)
         count++
       }
     }
@@ -113,7 +124,7 @@ class Local extends Base{
 }
 
 class Server extends Base{
-  GenerateTiles() {
+  GenerateTiles(fields) {
     // 未実装
   }
 }
