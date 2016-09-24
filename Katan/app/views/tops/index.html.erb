@@ -28,6 +28,10 @@
       </span>
   <% end %>
 
+  <%= form_tag tops_turn_end_path, remote: true do  %>
+    <%= submit_tag 'ターン終了', class: 'turn-end', id: 'turn-end' %>
+  <% end %>
+
   <div class="chat">
     <form id="form">
     <input type="text" id="msg">
