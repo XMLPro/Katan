@@ -1,0 +1,5 @@
+<h1>Result</h1>
+<% GameResource.all.each do |gr| %>
+	<div><%= gr.resource_type.name %></div><br>
+	<div><%= gr.user.name%></div><br>
+<% end %>

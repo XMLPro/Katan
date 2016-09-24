@@ -1,0 +1,89 @@
+var ws
+$(() => {
+    if(document.getElementById("map")){
+        "use strict"
+        // JavaなどでいうMain
+        const ctx = document.getElementById("map").getContext("2d")
+        ctx.fillStyle = '#3333ff'
+        ctx.fillRect(0, 0, 500, 500)          // マップ全体を青色に
+
+        const hoge = new Local()              // ローカル決め打ち
+        const pm = new PaintMap(ctx)          // ライブラリを利用
+        const tiles = hoge.init()
+
+        let rects = new Array() //四角形の座標
+        let tf = true
+        for(var j=0; j<19; j++){
+            for(var i=0; i<6; i++){
+                let x = tiles[j].coordinates[i][0];
+                let y = tiles[j].coordinates[i][1];
+                tf  =true
+                for (let value of rects) {
+                    if (Math.abs(value[0] - x) < 3 && Math.abs(value[1] - y) < 3) {
+                        tf = false
+                        break
+                    }
+                }
+                if (tf) {
+                    rects.push([x, y])
+                }
+            }
+        }
+
+        let next_intersections = [[1,5,17],[0,2,16],[1,3],[2,4],[3,5,7],[0,4,6],[5,9,19],[4,8],[7,9,11],[6,8,10],[9,13,21],[8,12],[11,13],[10,12,23],[15,17,28],[14,16,27],[1,15],[0,14,18],[17,19,30],[6,18,20],[19,21,32],[10,20,22],[21,24,34],[13,24],[22,23,36],[26,28,39],[25,27],[15,26],[14,25,29],[28,30,40],[18,29,31],[30,32,42],[20,31,33],[32,34,44],[22,33,35],[34,37,46],[24,37],[35,36],[39,40,48],[25,38],[29,38,41],[40,42,49],[31,41,43],[42,44,51],[33,43,45],[44,46,53],[35,45],[48,49],[38,47],[41,47,50],[49,51],[43,50,52],[51,53],[45,52]]
+        let side_relations = []
+        let rwid = rects[1][1] - rects[2][1]
+        next_intersections.forEach((n, i) => {
+            n.forEach(x => {
+                if(!side_relations.some(v => {return v.toString() == [i, x].toString()})) side_relations.push([x, i])
+            })
+        })
+
+        side_relations.forEach(x => {
+        })
+        let map_coordinate = $('#map').offset();
+        let sides = $(".side")
+        let intersections = $(".intersection")
+        let x = map_coordinate["left"];
+        let y = map_coordinate["top"];
+
+        for(let i = 0; i < sides.length; i++){
+            let sr = side_relations[i]
+            let x0 = rects[sr[0]][0]
+            let x1 = rects[sr[1]][0]
+            let y0 = rects[sr[0]][1]
+            let y1 = rects[sr[1]][1]
+            let deg = Math.atan2(y1 - y0, x1 - x0)
+            deg = "rotate(" + deg + "rad)"
+            $(sides[i])
+                .css({
+                    width: rwid + "px",
+                    left: x + (x0 + x1)/2 - rwid / 2 + "px",
+                    top: y + (y0 + y1)/2 - sides[i].height / 2 + "px",
+                    WebkitTransform: deg,
+                    MozTransform: deg,
+                    OTransform: deg,
+                    msTransform: deg
+                })
+        }
+
+        for(let i = 0; i < intersections.length; i++){
+            $(intersections[i]).css({
+                left: x + rects[i][0] - intersections[i].width / 2 + "px",
+                top: y + rects[i][1] - intersections[i].height / 2 + "px"
+            })
+        }
+        // ゲームループ とりあえず60FPSぐらいで描画
+        pm.paintHexagons(5, tiles)            // タイルの描画
+        pm.paintNum(tiles)                    // 数字の描画
+    }
+
+    ws = websocket();
+    $("#form").on("submit", function (e) {
+        if ($("#msg").val()) {
+            ws.trigger("chat", $("#msg").val());
+        }
+        $("#msg").val("");
+        e.preventDefault();
+    });
+})

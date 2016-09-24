@@ -1,6 +1,8 @@
 class GameMap < ActiveRecord::Base
   belongs_to :game_field
   has_many :turns
+  has_many :game_sides
+  has_many :game_intersections
 
   def next_turn
     t_number = self.turn_number + 1

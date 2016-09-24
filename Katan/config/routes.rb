@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  post 'tops/turn_end'
+
+  post 'chats/msg'
+  post 'chats/build'
+
   get 'game_buildings/all'
   patch 'game_buildings/update'
   post 'game_buildings/destroy'
@@ -12,6 +17,8 @@ Rails.application.routes.draw do
   get  'login' => 'sessions#new'
   post 'login' => 'sessions#create'
   delete 'logout' => 'sessions#destroy'
+
+  get 'tops/get_resources'
 
   get 'wssample/index'
   root 'tops#index'
