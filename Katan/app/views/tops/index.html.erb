@@ -21,6 +21,13 @@
           <%= image_submit_tag intersection.game_building&.building_type&.name || 'nothing.png', class: :intersection %>
       <% end %>
   <% end %>
+
+  <% @fields.each do |field| %>
+      <span class="field" resource_type="<%= field.resource_type.name %>">
+        <%= field.number %>
+      </span>
+  <% end %>
+
   <div class="chat">
     <form id="form">
     <input type="text" id="msg">

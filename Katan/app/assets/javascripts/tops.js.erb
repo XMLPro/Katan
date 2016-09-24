@@ -9,7 +9,11 @@ $(() => {
 
         const hoge = new Local()              // ローカル決め打ち
         const pm = new PaintMap(ctx)          // ライブラリを利用
-        const tiles = hoge.init()
+        const map_coordinate = $('#map').offset()
+        const x = map_coordinate["left"]
+        const y = map_coordinate["top"]
+        pm.setPosition(x, y)
+        const tiles = hoge.init($(".field"))
 
         let rects = new Array() //四角形の座標
         let tf = true
@@ -41,11 +45,8 @@ $(() => {
 
         side_relations.forEach(x => {
         })
-        let map_coordinate = $('#map').offset();
         let sides = $(".side")
         let intersections = $(".intersection")
-        let x = map_coordinate["left"];
-        let y = map_coordinate["top"];
 
         for(let i = 0; i < sides.length; i++){
             let sr = side_relations[i]
@@ -74,7 +75,13 @@ $(() => {
             })
         }
         // ゲームループ とりあえず60FPSぐらいで描画
-        pm.paintHexagons(5, tiles)            // タイルの描画
+        pm.paintHexagons(5, tiles, {
+          sheep: "#fff4c1",
+          wheat: "#ffd700",
+          iron: "#f5f5f5",
+          tree: "#005500",
+          soil: "#cd853f"
+        })            // タイルの描画
         pm.paintNum(tiles)                    // 数字の描画
     }
 
