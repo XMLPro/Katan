@@ -13,8 +13,7 @@ class TopsController < ApplicationController
 
   def turn_end
     map = current_user.turn.game_map
-    map.next_turn
-    @result = map.current_turn.user.name
+    @result = map.next_turn && map.current_turn.user.name
   end
 
   def get_resources

@@ -1,4 +1,9 @@
 let ws = websocket()
+//noinspection JSDuplicatedDeclaration
 ws.trigger("notice", {
-  result: "turn end, next: <%= @result %>"
+  <% if @result %>
+    result: "turn end, next: <%= @result %>",
+  <% else %>
+    result: "failed",
+  <% end %>
 })
