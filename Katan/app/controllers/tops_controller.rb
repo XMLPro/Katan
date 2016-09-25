@@ -5,9 +5,15 @@ class TopsController < ApplicationController
     @fields = @map.game_fields
     @intersections = @map.game_intersections
     @sides = @map.game_sides
+
+    if (user = current_user) && !current_user.turn
+      Turn.create user: user, game_map: @map
+    end
   end
 
   def turn_end
+    map = current_user.turn.game_map
+    @result = map.next_turn && map.current_turn.user.name
   end
 
   def get_resources
