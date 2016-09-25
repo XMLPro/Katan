@@ -5,4 +5,5 @@ class User < ActiveRecord::Base
   validates :name, format: {without: /\W/}
   has_many :game_buildings
   has_many :game_resources
+  has_one :turn
 end

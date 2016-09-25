@@ -64,5 +64,13 @@ body {
   transform-origin: 50% 50%;
   height: 10px;
   position: absolute;
-  background: orange;
+}
+
+.field{
+  position: absolute;
+}
+
+.turn-end{
+  position: absolute;
+  margin: 5px;
 }
