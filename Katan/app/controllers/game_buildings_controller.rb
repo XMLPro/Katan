@@ -91,11 +91,19 @@ class GameBuildingsController < ApplicationController
     end
 
     def create_from_side
+      map = current_user.turn.game_map
       side = GameSide.find_by id: params[:side_id]
+      tree = current_user.game_resources.where(resource_type:ResourceType.find_by_name(:tree))
       unless side.game_building
         #建物が建つか？
         possible = false
         roads = current_user.game_buildings.where(building_type: BuildingType.find_by_name(:bridge))
+        if map.first? or tree.count >= 1d
+          possible = true
+        else 
+          return false
+        end
+      
         if roads.count >= 2
           current_user_id = current_user.id
           intersection_a = GameIntersection.find_by_position(side.positionA)
@@ -118,6 +126,7 @@ class GameBuildingsController < ApplicationController
         @data[:place] = :side
         if build.save
           side.update game_building: build
+          tree.first.destroy
           @data[:position] = side.position
           @data[:building_type] = build.building_type.name
           true
