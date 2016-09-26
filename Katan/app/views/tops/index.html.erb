@@ -42,10 +42,24 @@
 </div>
 
 <div class="info-wrap">
-  <div class="info1">info1</div>
-  <div class="info2">info2</div>
-  <div class="info3">info3</div>
-  <div class="info4">info4</div>
+  <% @map.turns.each_with_index do |t, index| %>
+      <div class="info<%= index %> <%= 'now_turn' if @map.current_turn == t %>">
+        名前:<%= t.user.name %><br>
+        <% if t.user == current_user %>
+            <div>
+              羊@<%= t.user.resources(:sheep).count %><br>
+              麦@<%= t.user.resources(:wheat).count %><br>
+              土@<%= t.user.resources(:soil).count %><br>
+              鉄@<%= t.user.resources(:iron).count %><br>
+              木@<%= t.user.resources(:tree).count %>
+            </div>
+        <% else %>
+            <div>
+              資源@<%= t.user.game_resources.count %>
+            </div>
+        <% end %>
+      </div>
+  <% end %>
 </div>
 <% else %>
 

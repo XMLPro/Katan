@@ -34,6 +34,10 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: center;
+
+  .now_turn {
+    background-color: #a0a0a0;
+  }
 }
 
 .chat {
