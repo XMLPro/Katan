@@ -1,9 +1,5 @@
 let ws = websocket()
 //noinspection JSDuplicatedDeclaration
-ws.trigger("notice", {
-  <% if @result %>
-    result: "turn end, next: <%= @result %>",
-  <% else %>
-    result: "failed",
-  <% end %>
-})
+<% if @result %>
+  $(".info-wrap").html("<%= j render('infos') %>")
+<% end %>
