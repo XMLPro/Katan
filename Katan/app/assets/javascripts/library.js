@@ -130,6 +130,6 @@ class Server extends Base{
 }
 
 function websocket(){
-    if(!ws) return new WebSocketRails("localhost:3000/websocket")
+    if(!ws) return new WebSocketRails(location.host + "/websocket")
     else return ws
 }
