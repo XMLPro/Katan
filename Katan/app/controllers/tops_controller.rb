@@ -13,7 +13,12 @@ class TopsController < ApplicationController
 
   def turn_end
     map = current_user.turn.game_map
-    @result = map.next_turn && map.current_turn.user.name
+    @result = if map.next_turn
+                get_resources
+                map.current_turn.user.name
+              else
+                nil
+              end
   end
 
   def get_resources

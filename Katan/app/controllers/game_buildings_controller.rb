@@ -96,21 +96,30 @@ class GameBuildingsController < ApplicationController
         #建物が建つか？
         possible = false
         roads = current_user.game_buildings.where(building_type: BuildingType.find_by_name(:bridge))
-        if roads.count >= 2
+        map = current_user.turn.game_map
+        if map.first
+          if roads.count < 1
+            possible = true
+            map.next_first_turn
+          end
+        elsif map.first2
+          if roads.count < 2
+            possible = true
+            map.next_first_turn
+          end
+        else
           current_user_id = current_user.id
-          intersection_a = GameIntersection.find_by_position(side.positionA)
-          intersection_b = GameIntersection.find_by_position(side.positionB)
+          intersection_a = map.game_intersections.find_by_position(side.positionA)
+          intersection_b = map.game_intersections.find_by_position(side.positionB)
           sides = intersection_a.vertices.map{|v| v.game_side&.game_building&.user_id} + intersection_b.vertices.map{|v| v.game_side&.game_building&.user_id}
           sides.each do |s|
-            p s
             if s == current_user_id
               possible = true
               break
             end
           end
-
-          return false unless possible
         end
+        return false unless possible
 
         #建物を建てる
         build = GameBuilding.new(building_params)
