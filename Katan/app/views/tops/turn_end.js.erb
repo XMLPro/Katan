@@ -1,5 +1,6 @@
 let ws = websocket()
-//noinspection JSDuplicatedDeclaration
 <% if @result %>
   $(".info-wrap").html("<%= j render('infos') %>")
+<% else %>
+  alert("failed")
 <% end %>
