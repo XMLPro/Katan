@@ -44,8 +44,8 @@ class GameBuildingsController < ApplicationController
     end
 
     def create_from_intersection
+      map = current_user.turn.game_map
       intersection = GameIntersection.find_by id: params[:intersection_id]
-
       #建物が建つか？
       possible = false
       vertices = intersection.vertices
@@ -55,13 +55,19 @@ class GameBuildingsController < ApplicationController
           break
         end
       end
-
+      
       if possible
         vertices.each do |v|
           if (id = v.next_intersection_id) && GameIntersection.find_by_id(id).game_building
             return false
           end
         end
+      else
+        return false
+      end
+
+      if map.first? or check_resource(tree:1 , soil:1 , wheat:1 , sheep:1)
+        possible = true
       else
         return false
       end
@@ -80,6 +86,9 @@ class GameBuildingsController < ApplicationController
       return false unless building_type
       build.building_type = building_type
       @data[:place] = :intersection
+      unless map.first?  
+        use_resource(tree:1 , soil:1 , wheat:1 , sheep:1)
+      end
       if build.save
         intersection.update game_building: build
         @data[:position] = intersection.position
@@ -91,11 +100,17 @@ class GameBuildingsController < ApplicationController
     end
 
     def create_from_side
+      map = current_user.turn.game_map
       side = GameSide.find_by id: params[:side_id]
       unless side.game_building
         #建物が建つか？
         possible = false
         roads = current_user.game_buildings.where(building_type: BuildingType.find_by_name(:bridge))
+        if map.first? and roads.count < 2 or check_resource(tree:1 , soil:1)
+          possible = true
+        else
+          return false
+        end
         if roads.count >= 2
           current_user_id = current_user.id
           intersection_a = GameIntersection.find_by_position(side.positionA)
@@ -116,6 +131,9 @@ class GameBuildingsController < ApplicationController
         build = GameBuilding.new(building_params)
         build.building_type = BuildingType.find_by(name: :bridge)
         @data[:place] = :side
+        unless map.first? 
+          use_resource(tree:1 , soil:1)
+        end
         if build.save
           side.update game_building: build
           @data[:position] = side.position
@@ -126,4 +144,25 @@ class GameBuildingsController < ApplicationController
         end
       end
     end
+
+    def check_resource(**resources)
+      # 必要な分の資源があるか？
+      resources.each do |i , v|
+        resources[i] = current_user.game_resources.where(resource_type:ResourceType.find_by_name(i))
+        if resources[i].count < v
+          return false
+        end
+      end
+       return true
+    end
+
+    def use_resource(**resources)
+      # 必要な分の資源を消費（削除）
+      resources.each do |i , v|
+        resources[i] = current_user.game_resources.where(resource_type:ResourceType.find_by_name(i))
+        resources[i].first.destroy
+      end
+    end
 end
+
+
