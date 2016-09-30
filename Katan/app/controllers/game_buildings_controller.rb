@@ -86,7 +86,9 @@ class GameBuildingsController < ApplicationController
       return false unless building_type
       build.building_type = building_type
       @data[:place] = :intersection
-      use_resource(tree:1 , soil:1 , wheat:1 , sheep:1)
+      unless map.first?  
+        use_resource(tree:1 , soil:1 , wheat:1 , sheep:1)
+      end
       if build.save
         intersection.update game_building: build
         @data[:position] = intersection.position
@@ -129,7 +131,9 @@ class GameBuildingsController < ApplicationController
         build = GameBuilding.new(building_params)
         build.building_type = BuildingType.find_by(name: :bridge)
         @data[:place] = :side
-        use_resource(tree:1 , soil:1)
+        unless map.first? 
+          use_resource(tree:1 , soil:1)
+        end
         if build.save
           side.update game_building: build
           @data[:position] = side.position
@@ -156,7 +160,7 @@ class GameBuildingsController < ApplicationController
       # 必要な分の資源を消費（削除）
       resources.each do |i , v|
         resources[i] = current_user.game_resources.where(resource_type:ResourceType.find_by_name(i))
-        # resources[i].first.destroy
+        resources[i].first.destroy
       end
     end
 end
