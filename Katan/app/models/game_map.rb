@@ -22,8 +22,9 @@ class GameMap < ActiveRecord::Base
         end
       else
         t_number = self.turn_number - 1
-        if t_number <= 0
+        if t_number < 0
           self.first2 = false
+          t_number = self.turn_number
         end
       end
       self.update turn_number: t_number, first: self.first, first2: self.first2

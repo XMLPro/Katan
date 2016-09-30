@@ -16,8 +16,6 @@ class TopsController < ApplicationController
     @result = if map.next_turn
                 get_resources
                 map.current_turn.user.name
-              else
-                nil
               end
   end
 
