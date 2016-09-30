@@ -104,7 +104,7 @@ class GameBuildingsController < ApplicationController
         #建物が建つか？
         possible = false
         roads = current_user.game_buildings.where(building_type: BuildingType.find_by_name(:bridge))
-        if map.first? or check_resource(tree:1 , soil:1)
+        if map.first? and roads.count < 2 or check_resource(tree:1 , soil:1)
           possible = true
         else
           return false
@@ -145,7 +145,6 @@ class GameBuildingsController < ApplicationController
       # 必要な分の資源があるか？
       resources.each do |i , v|
         resources[i] = current_user.game_resources.where(resource_type:ResourceType.find_by_name(i))
-        debugger
         if resources[i].count < v
           return false
         end
