@@ -21,13 +21,20 @@ class GameBuildingsController < ApplicationController
     @data = {}
     turn = current_user.turn
     map = turn.game_map
-    @data[:result] = if turn != map.current_turn
+    result = if turn != map.current_turn
                        false
                      elsif params[:intersection_id]
                        create_from_intersection map
                      elsif params[:side_id]
                        create_from_side map
-                     end
+             end
+    if result
+      WebsocketRails[:broadcast].trigger :draw_building, @data
+      map.turns.each do |t|
+        WebsocketRails.users[t.user_id].send_message :draw_info, render_to_string(
+          partial: 'tops/infos', locals: {map: map, user: t.user})
+      end
+    end
   end
 
   def destroy
@@ -119,7 +126,6 @@ class GameBuildingsController < ApplicationController
         #建物が建つか？
         possible = false
         roads = current_user.game_buildings.where(building_type: BuildingType.find_by_name(:bridge))
-        map = current_user.turn.game_map
         if map.first # 初期ダーン
           if roads.count < 1 # 一巡目
             intersection_a = map.game_intersections.find_by(position: side.positionA)

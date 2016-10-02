@@ -133,3 +133,7 @@ function websocket(){
     if(!ws) return new WebSocketRails(location.host + "/websocket")
     else return ws
 }
+
+function broadcast_websocket(){
+    if(!broadcast_ws) return websocket().subscribe("broadcast")
+}

@@ -13,10 +13,12 @@ class TopsController < ApplicationController
 
   def turn_end
     map = current_user.turn.game_map
-    @result = if map.next_turn
-                get_resources
-                map.current_turn.user.name
-              end
+    if map.next_turn
+      get_resources
+      map.current_turn.user.name
+      WebsocketRails[:broadcast].trigger :draw_info, render_to_string(
+          partial: 'tops/infos', locals: {map: map})
+    end
   end
 
   def get_resources
