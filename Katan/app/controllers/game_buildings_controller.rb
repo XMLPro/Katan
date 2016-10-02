@@ -29,9 +29,10 @@ class GameBuildingsController < ApplicationController
                        create_from_side map
              end
     if result
-      WebsocketRails[:broadcast].trigger :draw_building, @data
       map.turns.each do |t|
-        WebsocketRails.users[t.user_id].send_message :draw_info, render_to_string(
+        broadcast = WebsocketRails.users[t.user_id]
+        broadcast.send_message :draw_building, @data
+        broadcast.send_message :draw_info, render_to_string(
           partial: 'tops/infos', locals: {map: map, user: t.user})
       end
     end

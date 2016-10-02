@@ -15,9 +15,10 @@ class TopsController < ApplicationController
     map = current_user.turn.game_map
     if map.next_turn
       get_resources
-      map.current_turn.user.name
-      WebsocketRails[:broadcast].trigger :draw_info, render_to_string(
-          partial: 'tops/infos', locals: {map: map})
+      map.turns.each do |t|
+        WebsocketRails.users[t.user_id].send_message :draw_info, render_to_string(
+            partial: 'tops/infos', locals: {map: map, user: t.user})
+      end
     end
   end
 
