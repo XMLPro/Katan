@@ -5,16 +5,16 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 # Ignore bundler config.
-Katan/.bundle
+/.bundle
 
 # Ignore the default SQLite database.
-Katan/db/*.sqlite3
-Katan/db/*.sqlite3-journal
+/db/*.sqlite3
+/db/*.sqlite3-journal
 
 # Ignore all logfiles and tempfiles.
-Katan/log/*
-!Katan/log/.keep
-Katan/tmp
+/log/*
+!/log/.keep
+/tmp
 
-Katan/.idea/
-Katan/db/schema.rb
+.idea/
+db/schema.rb
