@@ -141,7 +141,7 @@ class GameBuildingsController < ApplicationController
           current_user_id = current_user.id
           intersection_a = map.game_intersections.find_by_position(side.positionA)
           intersection_b = map.game_intersections.find_by_position(side.positionB)
-          sides = intersection_a.vertices.map{|v| v.game_side&.game_building&.user_id} + intersection_b.vertices.map{|v| v.game_side&.game_building&.user_id}
+          sides = intersection_a.vertices.map{|v| v.game_side.try(:game_building).try(:user_id)} + intersection_b.vertices.map{|v| v.game_side.try(:game_building).try(:user_id)}
           return false unless sides.any?{|s| s == current_user_id}
         end
         return false unless possible
