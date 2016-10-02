@@ -106,7 +106,7 @@ class GameBuildingsController < ApplicationController
       if build.save
         intersection.update game_building: build
         @data[:position] = intersection.position
-        @data[:building_type] = build.building_type.name
+        @data[:image_name] = building_image(intersection)
         true
       else
         false
@@ -156,7 +156,7 @@ class GameBuildingsController < ApplicationController
         if build.save
           side.update game_building: build
           @data[:position] = side.position
-          @data[:building_type] = build.building_type.name
+          @data[:image_name] = building_image(side)
           true
         else
           false
