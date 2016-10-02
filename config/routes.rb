@@ -21,7 +21,8 @@ Rails.application.routes.draw do
   get 'tops/get_resources'
 
   get 'wssample/index'
-  root 'tops#index'
+  #root 'tops#index'
+  root 'sessions#new'
 
 
   # The priority is based upon order of creation: first created -> highest priority.
