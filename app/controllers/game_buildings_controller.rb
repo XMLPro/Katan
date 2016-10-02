@@ -54,7 +54,7 @@ class GameBuildingsController < ApplicationController
 
       vertices = intersection.vertices
       # 隣接道
-      return false unless vertices.any?{|v| (b = v.game_side&.game_building) && b.user == current_user}
+      return false unless vertices.any?{|v| (b = v.game_side.try(:game_building)) && b.user == current_user}
 
       # 隣接家
       return false if vertices.any?{|v| (id = v.next_intersection_id) && map.game_intersections.find_by_id(id).game_building}
