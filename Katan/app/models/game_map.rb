@@ -35,6 +35,10 @@ class GameMap < ActiveRecord::Base
     self.first || self.first2
   end
 
+  def end?
+    self.turns.select{|t| t.user.calc_point >= 6}.first
+  end
+
   def current_turn
     # self.turns.find_by_number(self.turn_number)
     self.turns[self.turn_number]
