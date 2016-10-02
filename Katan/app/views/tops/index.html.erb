@@ -40,7 +40,7 @@
   </div>
 </div>
 
-<div class="info-wrap"><%= render 'infos' %></div>
+<div class="info-wrap"><%= render partial: 'infos', locals: {map: @map} %></div>
 <% else %>
 
 <h1>Login Faild!</h1>
