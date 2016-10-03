@@ -1,5 +1,5 @@
 class ChatsController < ApplicationController
-  ydef msg
+  def msg
     @msg = params[:msg]
   end
 end

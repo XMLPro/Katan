@@ -6,6 +6,10 @@ class ApplicationController < ActionController::Base
   include TopsHelper
   include ApplicationHelper
 
+  def current_user
+    view_context.current_user
+  end
+
   def hello
     render text: "hello"
   end
