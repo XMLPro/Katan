@@ -10,6 +10,7 @@
     </table>
     <%= current_user.name %><br>
     サイコロの目は、<%= dice %>でした！</div>
+    <%= link_to 'get_resource' , tops_get_resources_path %></div>
     <div class="trade">貿易関係</div>
   </div>
   <canvas id="map" width="500" height="500"></canvas>
@@ -46,12 +47,7 @@
   </div>
 </div>
 
-<div class="info-wrap">
-  <div class="info1">info1</div>
-  <div class="info2">info2</div>
-  <div class="info3">info3</div>
-  <div class="info4">info4</div>
-</div>
+<div class="info-wrap"><%= render partial: 'infos', locals: {map: @map} %></div>
 <% else %>
 
 <h1>Login Faild!</h1>

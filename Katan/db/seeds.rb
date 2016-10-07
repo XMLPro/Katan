@@ -6,11 +6,15 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-ResourceType.create name: :grass
-ResourceType.create name: :iron
-ResourceType.create name: :tree
-ResourceType.create name: :soil
+puts 'create user'
+User.create name: :u1
+User.create name: :u2
+User.create name: :u3
 
-BuildingType.create name: :normal
-BuildingType.create name: :special
-BuildingType.create name: :bridge
+puts 'create turn'
+map = GameMap.first
+User.all.each do |u|
+  unless u.turn
+    Turn.create user: u, game_map: map
+  end
+end
