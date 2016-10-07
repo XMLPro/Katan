@@ -1,8 +1,8 @@
-<% @map ||= current_user.turn.game_map %>
-<% @map.turns.each_with_index do |t, index| %>
-    <div class="info<%= index %> <%= 'now_turn' if @map.current_turn == t %>">
+<% user ||= current_user %>
+<% map.turns.each_with_index do |t, index| %>
+    <div class="info<%= index %> <%= 'now_turn' if map.current_turn == t %>">
       名前:<%= t.user.name %><br>
-      <% if t.user == current_user %>
+      <% if t.user == user %>
           <div>
             羊@<%= t.user.resources(:sheep).count %><br>
             麦@<%= t.user.resources(:wheat).count %><br>

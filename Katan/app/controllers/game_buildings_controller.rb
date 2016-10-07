@@ -19,11 +19,23 @@ class GameBuildingsController < ApplicationController
 
   def create
     @data = {}
-    @data[:result] = if params[:intersection_id]
-                       create_from_intersection
+    turn = current_user.turn
+    map = turn.game_map
+    result = if turn != map.current_turn
+                       false
+                     elsif params[:intersection_id]
+                       create_from_intersection map
                      elsif params[:side_id]
-                       create_from_side
-                     end
+                       create_from_side map
+             end
+    if result
+      map.turns.each do |t|
+        broadcast = WebsocketRails.users[t.user_id]
+        broadcast.send_message :draw_building, @data
+        broadcast.send_message :draw_info, render_to_string(
+          partial: 'tops/infos', locals: {map: map, user: t.user})
+      end
+    end
   end
 
   def destroy
@@ -43,34 +55,40 @@ class GameBuildingsController < ApplicationController
       {user: current_user}
     end
 
-    def create_from_intersection
-      map = current_user.turn.game_map
+    def create_from_intersection(map)
       intersection = GameIntersection.find_by id: params[:intersection_id]
-      #建物が建つか？
       possible = false
-      vertices = intersection.vertices
-      vertices.each do |v|
-        if (b = v.game_side&.game_building) && b.user == current_user
-          possible = true
-          break
-        end
-      end
-      
-      if possible
-        vertices.each do |v|
-          if (id = v.next_intersection_id) && GameIntersection.find_by_id(id).game_building
-            return false
-          end
-        end
-      else
-        return false
-      end
+      #建物が建つか？
 
-      if map.first? or check_resource(tree:1 , soil:1 , wheat:1 , sheep:1)
-        possible = true
-      else
-        return false
+      vertices = intersection.vertices
+      # 隣接道
+      return false unless vertices.any?{|v| (b = v.game_side&.game_building) && b.user == current_user}
+
+      # 隣接家
+      return false if vertices.any?{|v| (id = v.next_intersection_id) && map.game_intersections.find_by_id(id).game_building}
+
+      if map.first # 初期ダーン
+        buildings = current_user.game_buildings.where(building_type: BuildingType.find_by(name: :normal)).count
+        if buildings < 1 # 一巡目
+          possible = true
+          roads = current_user.game_buildings.where(building_type: BuildingType.find_by(name: :bridge)).count
+          map.next_first_turn if roads >= 1
+        end
+      elsif map.first2
+        buildings = current_user.game_buildings.where(building_type: BuildingType.find_by(name: :normal)).count
+        if buildings < 2 # 二巡目
+          possible = true
+          roads = current_user.game_buildings.where(building_type: BuildingType.find_by(name: :bridge)).count
+          map.next_first_turn if roads >= 2
+        end
+      else # 通常ターン
+        if check_resource(tree:1 , soil:1 , wheat:1 , sheep:1)
+          possible = true
+        else
+          return false
+        end
       end
+      return false unless possible
 
       #建物を建てる
       build = intersection.game_building || GameBuilding.new(building_params)
@@ -86,46 +104,54 @@ class GameBuildingsController < ApplicationController
       return false unless building_type
       build.building_type = building_type
       @data[:place] = :intersection
-      unless map.first?  
-        use_resource(tree:1 , soil:1 , wheat:1 , sheep:1)
+      unless map.first?
+        begin
+          use_resource(tree:1 , soil:1 , wheat:1 , sheep:1)
+        rescue
+# ignored
+        end
       end
       if build.save
         intersection.update game_building: build
         @data[:position] = intersection.position
-        @data[:building_type] = build.building_type.name
+        @data[:image_name] = building_image(intersection)
         true
       else
         false
       end
     end
 
-    def create_from_side
-      map = current_user.turn.game_map
+    def create_from_side(map)
       side = GameSide.find_by id: params[:side_id]
       unless side.game_building
         #建物が建つか？
         possible = false
         roads = current_user.game_buildings.where(building_type: BuildingType.find_by_name(:bridge))
-        if map.first? and roads.count < 2 or check_resource(tree:1 , soil:1)
-          possible = true
-        else
-          return false
-        end
-        if roads.count >= 2
-          current_user_id = current_user.id
-          intersection_a = GameIntersection.find_by_position(side.positionA)
-          intersection_b = GameIntersection.find_by_position(side.positionB)
-          sides = intersection_a.vertices.map{|v| v.game_side&.game_building&.user_id} + intersection_b.vertices.map{|v| v.game_side&.game_building&.user_id}
-          sides.each do |s|
-            p s
-            if s == current_user_id
-              possible = true
-              break
-            end
+        if map.first # 初期ダーン
+          if roads.count < 1 # 一巡目
+            intersection_a = map.game_intersections.find_by(position: side.positionA)
+            intersection_b = map.game_intersections.find_by(position: side.positionB)
+            possible = true if check_building(intersection_a, map) || check_building(intersection_b, map)
           end
-
-          return false unless possible
+        elsif map.first2
+          if roads.count < 2 # 二巡目
+            intersection_a = map.game_intersections.find_by(position: side.positionA)
+            intersection_b = map.game_intersections.find_by(position: side.positionB)
+            possible = true unless intersection_a.game_building || intersection_b.game_building
+          end
+        else # 通常ターン
+          if check_resource(tree:1 , soil:1)
+            possible = true
+          else
+            return false
+          end
+          current_user_id = current_user.id
+          intersection_a = map.game_intersections.find_by_position(side.positionA)
+          intersection_b = map.game_intersections.find_by_position(side.positionB)
+          sides = intersection_a.vertices.map{|v| v.game_side&.game_building&.user_id} + intersection_b.vertices.map{|v| v.game_side&.game_building&.user_id}
+          return false unless sides.any?{|s| s == current_user_id}
         end
+        return false unless possible
 
         #建物を建てる
         build = GameBuilding.new(building_params)
@@ -137,12 +163,17 @@ class GameBuildingsController < ApplicationController
         if build.save
           side.update game_building: build
           @data[:position] = side.position
-          @data[:building_type] = build.building_type.name
+          @data[:image_name] = building_image(side)
           true
         else
           false
         end
       end
+    end
+
+    def check_building(intersection, map)
+      vertices = intersection.vertices
+      !vertices.any?{|v| (id = v.next_intersection_id) && map.game_intersections.find_by_id(id).game_building}
     end
 
     def check_resource(**resources)
