@@ -7,4 +7,6 @@ $ ->
     $(".info-wrap").html(data)
   ws.bind "draw_building", (data) ->
     target = $($("." + data.place)[data.position])
-    target.attr({"src": image_path(data.building_type)})
+    target.attr({"src": image_path(data.image_name)})
+  ws.bind "draw_info", (data) ->
+    $(".info-wrap").html(data)
