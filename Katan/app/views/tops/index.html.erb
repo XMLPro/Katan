@@ -7,20 +7,18 @@
     <%= link_to 'get_resource' , tops_get_resources_path %>
     <div class="trade">貿易関係
       <h4>輸出するもの:</h4>
-      <%= form_tag tops_trade_path remote: true do%>
-      <%= label_tag :export %>
-      羊<%= radio_button_tag :export , 'page[export]', 'sheep' %>
-      麦<%= radio_button_tag :export , 'page[export]', 'wheat' %>
-      鉄<%= radio_button_tag :export , 'page[export]', 'iron' %>
-      木<%= radio_button_tag :export , 'page[export]', 'tree' %>
-      土<%= radio_button_tag :export , 'page[export]', 'soil' %>
+      <%= form_tag tops_trade_path, remote: true do%>
+      羊<%= radio_button_tag :export , 'sheep' , 'export'%>
+      麦<%= radio_button_tag :export , 'wheat' , 'export' %>
+      鉄<%= radio_button_tag :export , 'iron'  , 'export'%>
+      木<%= radio_button_tag :export , 'tree'  , 'export' %>
+      土<%= radio_button_tag :export , 'soil'  , 'export'%>
       <h4>輸入するもの:</h4>
-      <%= label_tag :import %>
-      羊<%= radio_button_tag :import , 'page[import]', 'rails_base' %>
-      麦<%= radio_button_tag :import , 'page[import]', 'rails_base' %>
-      鉄<%= radio_button_tag :import , 'page[import]', 'rails_base' %>
-      木<%= radio_button_tag :import , 'page[import]', 'rails_base' %>
-      土<%= radio_button_tag :import , 'page[import]', 'rails_base' %>
+      羊<%= radio_button_tag :import , 'sheep' , 'import'%>
+      麦<%= radio_button_tag :import , 'wheat' , 'import'%>
+      鉄<%= radio_button_tag :import , 'iron'  , 'import'%>
+      木<%= radio_button_tag :import , 'tree'  , 'import'%>
+      土<%= radio_button_tag :import , 'soil'  , 'import'%><br>
       <%= submit_tag '交換!'%>
       <% end %>
     </div>

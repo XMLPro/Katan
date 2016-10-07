@@ -28,4 +28,10 @@ class TopsController < ApplicationController
   	 end
     end
   end
+
+  def trade
+    GameResource.delete(current_user.game_resources.where(resource_type:ResourceType.find_by_name(params[:export])).limit(4))
+    current_user.game_resources.where(resource_type:ResourceType.find_by_name(params[:import])).create
+    render nothing:true
+  end
 end
