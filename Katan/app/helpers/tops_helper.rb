@@ -49,4 +49,9 @@ module TopsHelper
     GameSide.delete_all
     Vertex.delete_all
   end
+
+  def building_image(target, default:'')
+    building = target.game_building
+    building&.building_type&.name&.+(building.user&.turn&.get_number&.to_s || '') || default
+  end
 end
