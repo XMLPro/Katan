@@ -1,10 +1,15 @@
 <% if logged_in? %>
 <div class="line">
   <div class="inline">
-    <div class="building">building<br>道<br>開拓地<br>都市<br>
+    <div class="building">
+    building<br>
+    <table class="resource_table" border="2">
+      <tr><th>道</th><td>木土</td><td>0ポイント</td></tr>
+      <tr><th>開拓地</th><td>木土麦羊</td><td>1ポイント</td></tr>
+      <tr><th>都市</th><td>麦麦鉄鉄鉄</td><td>2ポイント</td></tr>
+    </table>
     <%= current_user.name %><br>
-    サイコロの目は、<%= dice %>でした！<br>
-    <%= link_to 'get_resource' , tops_get_resources_path %></div>
+    サイコロの目は、<%= dice %>でした！</div>
     <div class="trade">貿易関係
       <h4>輸出するもの:</h4>
       <%= form_tag tops_trade_path, remote: true do%>
@@ -60,6 +65,6 @@
 <div class="info-wrap"><%= render partial: 'infos', locals: {map: @map} %></div>
 <% else %>
 
-<h1>Login Faild!</h1>
-<%= link_to "Retry_Login", login_url %>
+<h1>ようこそ</h1>
+<%= link_to "参加する", login_url %>
 <% end %>
