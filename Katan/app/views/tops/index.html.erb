@@ -6,21 +6,25 @@
     サイコロの目は、<%= dice %>でした！</div>
     <%= link_to 'get_resource' , tops_get_resources_path %>
     <div class="trade">貿易関係
-      <div>輸出するもの<br>
-        <input type="radio" name="export" value="sheep"> 麦
-        <input type="radio" name="export" value="wheat"> 羊
-        <input type="radio" name="export" value="soil"> 土
-        <input type="radio" name="export" value="iron"> 鉄
-        <input type="radio" name="export" value="tree"> 木
-      </div>
-      <br>
-      <div>輸入するもの<br>
-        <input type="radio" name="import" value="sheep"> 麦
-        <input type="radio" name="import" value="wheat"> 羊
-        <input type="radio" name="import" value="soil"> 土
-        <input type="radio" name="import" value="iron"> 鉄
-        <input type="radio" name="import" value="tree"> 木
-      </div>
+      <h4>輸出するもの:</h4>
+      <%= form_tag game_buildings_path remote: true do%>
+      <%= label_tag :export %>
+      羊<%= radio_button_tag :export , 'page[category]', 'rails_base' %>
+      麦<%= radio_button_tag :export , 'page[category]', 'rails_base' %>
+      鉄<%= radio_button_tag :export , 'page[category]', 'rails_base' %>
+      木<%= radio_button_tag :export , 'page[category]', 'rails_base' %>
+      土<%= radio_button_tag :export , 'page[category]', 'rails_base' %>
+      <% end %>
+      <h4>輸入するもの:</h4>
+      <%= form_tag game_buildings_path remote: true do%>
+      <%= label_tag :inport %>
+      羊<%= radio_button_tag :inport , 'page[category]', 'rails_base' %>
+      麦<%= radio_button_tag :inport , 'page[category]', 'rails_base' %>
+      鉄<%= radio_button_tag :inport , 'page[category]', 'rails_base' %>
+      木<%= radio_button_tag :inport , 'page[category]', 'rails_base' %>
+      土<%= radio_button_tag :inport , 'page[category]', 'rails_base' %>
+      <% end %>
+      <%= submit_tag '交換!'%>
     </div>
   </div>
   <canvas id="map" width="500" height="500"></canvas>
