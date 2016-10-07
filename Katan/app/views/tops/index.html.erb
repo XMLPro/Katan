@@ -3,17 +3,13 @@
   <div class="inline">
     <div class="building">
     building<br>
-    <table border="2">
-      <tr><th>道</th><td>木土</td></tr>
-      <tr><th>開拓地</th><td>木土麦羊</td></tr>
-      <tr><th>都市</th><td>麦麦鉄鉄鉄</td></tr>
+    <table class="resource_table" border="2">
+      <tr><th>道</th><td>木土</td><td>0ポイント</td></tr>
+      <tr><th>開拓地</th><td>木土麦羊</td><td>1ポイント</td></tr>
+      <tr><th>都市</th><td>麦麦鉄鉄鉄</td><td>2ポイント</td></tr>
     </table>
-    道<br>
-    開拓地<br>
-    都市<br>
     <%= current_user.name %><br>
     サイコロの目は、<%= dice %>でした！</div>
-    <%= link_to 'get_resource' , tops_get_resources_path %>
     <div class="trade">貿易関係</div>
   </div>
   <canvas id="map" width="500" height="500"></canvas>
