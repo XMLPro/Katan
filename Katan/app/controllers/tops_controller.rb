@@ -34,4 +34,14 @@ class TopsController < ApplicationController
   	 end
     end
   end
+
+  def trade
+    if current_user.resources(params[:export]).count >= 4
+      GameResource.delete(current_user.game_resources.where(resource_type:ResourceType.find_by_name(params[:export])).limit(4))
+      current_user.game_resources.where(resource_type:ResourceType.find_by_name(params[:import])).create
+      render nothing:true
+    else
+      render "tops/trade"
+    end
+  end
 end
