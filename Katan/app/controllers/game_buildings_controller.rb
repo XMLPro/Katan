@@ -82,22 +82,36 @@ class GameBuildingsController < ApplicationController
           map.next_first_turn if roads >= 2
         end
       else # 通常ターン
+      build = intersection.game_building || GameBuilding.new(building_params)
+      normal = BuildingType.find_by_name :normal
+      special = BuildingType.find_by_name :special
+      #建物の状態によって資源チェック場合分け
+      case build.building_type
+      when nil
         if check_resource(tree:1 , soil:1 , wheat:1 , sheep:1)
           possible = true
         else
           return false
         end
+      when normal
+        if check_resource(iron:3, wheat:2)
+          possible = true
+        else
+          return false
+        end
+      end
       end
       return false unless possible
 
       #建物を建てる
       build = intersection.game_building || GameBuilding.new(building_params)
       normal = BuildingType.find_by_name :normal
+      special = BuildingType.find_by_name :special
       building_type = case build.building_type
                     when nil
                       normal
                     when normal
-                      BuildingType.find_by_name :special
+                      special
                     else
                       nil
                   end
@@ -106,7 +120,13 @@ class GameBuildingsController < ApplicationController
       @data[:place] = :intersection
       unless map.first?
         begin
-          use_resource(tree:1 , soil:1 , wheat:1 , sheep:1)
+          #建物の状態によって資源消費場合分け
+          case build.building_type
+          when normal
+            use_resource(tree:1 , soil:1 , wheat:1 , sheep:1)
+          when special
+            use_resource(iron:3, wheat:2)
+          end
         rescue
 # ignored
         end
@@ -190,8 +210,13 @@ class GameBuildingsController < ApplicationController
     def use_resource(**resources)
       # 必要な分の資源を消費（削除）
       resources.each do |i , v|
-        resources[i] = current_user.game_resources.where(resource_type:ResourceType.find_by_name(i))
-        resources[i].first.destroy
+        #複数個消えなかったから修正
+        vcount = 0
+        until vcount == v
+          vcount += 1
+          resources[i] = current_user.game_resources.where(resource_type:ResourceType.find_by_name(i))
+          resources[i].first.destroy    
+        end
       end
     end
 end
