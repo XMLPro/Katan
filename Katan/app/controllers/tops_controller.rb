@@ -6,9 +6,7 @@ class TopsController < ApplicationController
     @intersections = @map.game_intersections
     @sides = @map.game_sides
 
-    if (user = current_user) && !current_user.turn
-      Turn.create user: user, game_map: @map
-    end
+    @map.join(current_user)
   end
 
   def turn_end
