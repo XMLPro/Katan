@@ -39,4 +39,12 @@ class GameMap < ActiveRecord::Base
     # self.turns.find_by_number(self.turn_number)
     self.turns[self.turn_number]
   end
+
+  def game_start
+    self.update start: true
+  end
+
+  def game_end
+    self.update start: false
+  end
 end
