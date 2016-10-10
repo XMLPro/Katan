@@ -21,12 +21,12 @@ class GameBuildingsController < ApplicationController
     @data = {}
     turn = current_user.turn
     map = turn.game_map
-    result = if turn != map.current_turn
-                       false
-                     elsif params[:intersection_id]
-                       create_from_intersection map
-                     elsif params[:side_id]
-                       create_from_side map
+    result = if !map.current_turn || !map.start
+               false
+             elsif params[:intersection_id]
+               create_from_intersection map
+             elsif params[:side_id]
+               create_from_side map
              end
     if result
       map.turns.each do |t|
