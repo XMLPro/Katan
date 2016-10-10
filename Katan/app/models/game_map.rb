@@ -49,7 +49,9 @@ class GameMap < ActiveRecord::Base
   end
 
   def join(user)
-    Turn.create user: user, game_map: self unless user.turn || self.start
-    self.game_start if self.turns.count >= self.max_member
+    if user
+      Turn.create user: user, game_map: self unless user.turn || self.start
+      self.game_start if self.turns.count >= self.max_member
+    end
   end
 end
