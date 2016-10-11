@@ -7,9 +7,11 @@ class SessionsController < ApplicationController
     user = User.create(name: params[:session][:name])
     if user
       login(user)
-      redirect_to root_url
-    else
-      render 'new'
+      if current_user
+        redirect_to root_url
+      else
+        redirect_to login_url , alert: 'ログインに失敗しました。英数字でお願いします。'
+      end
     end
   end
 
