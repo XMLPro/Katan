@@ -20,7 +20,7 @@ class TopsController < ApplicationController
             partial: 'tops/infos', locals: {map: map, user: t.user})
       end
 
-      if (users_data = map.end2?(1))
+      if (users_data = map.end2?(5))
         result = users_data.map{|user, point| "#{user.name} : #{point}"}.join("\n")
         users_data.each do |user, point|
           broadcast = WebsocketRails.users[user.id]
