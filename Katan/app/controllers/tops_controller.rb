@@ -19,6 +19,7 @@ class TopsController < ApplicationController
       end
 
       if (users_data = map.end2?(5))
+        map.game_end
         result = users_data.map{|user, point| "#{user.name} : #{point}"}.join("\n")
         users_data.each do |user, point|
           broadcast = WebsocketRails.users[user.id]
