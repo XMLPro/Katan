@@ -34,11 +34,14 @@ class TopsController < ApplicationController
     @get_maps = GameField.where(number:@dice)
     for m in @get_maps do
       for v in m.vertices.all do
-        if v.game_intersection.game_building
-          @resource_type_id = m.resource_type_id
-          GameResource.create(user: current_user, resource_type: ResourceType.find_by_id(@resource_type_id))
-        end
-      end
+
+        #全ての六角形を見て、どこかの頂点に建物が建っていれば
+ 			  if v.game_intersection.game_building
+ 				  @resource_type_id = m.resource_type_id
+          @get_users = v.game_intersection.game_building.user
+          GameResource.create(user: @get_users, resource_type: ResourceType.find_by_id(@resource_type_id))
+ 			  end
+  	  end
     end
   end
 
