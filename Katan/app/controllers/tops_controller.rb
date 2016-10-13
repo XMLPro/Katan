@@ -6,9 +6,7 @@ class TopsController < ApplicationController
     @intersections = @map.game_intersections
     @sides = @map.game_sides
 
-    if (user = current_user) && !current_user.turn
-      Turn.create user: user, game_map: @map
-    end
+    @map.join(current_user)
   end
 
   def turn_end
@@ -21,6 +19,7 @@ class TopsController < ApplicationController
       end
 
       if (users_data = map.end2?(5))
+        map.game_end
         result = users_data.map{|user, point| "#{user.name} : #{point}"}.join("\n")
         users_data.each do |user, point|
           broadcast = WebsocketRails.users[user.id]

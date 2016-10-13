@@ -48,4 +48,19 @@ class GameMap < ActiveRecord::Base
     # self.turns.find_by_number(self.turn_number)
     self.turns[self.turn_number]
   end
+
+  def game_start
+    self.update start: true
+  end
+
+  def game_end
+    self.update start: false
+  end
+
+  def join(user)
+    if user
+      Turn.create user: user, game_map: self unless user.turn || self.start
+      self.game_start if self.turns.count >= self.max_member
+    end
+  end
 end
