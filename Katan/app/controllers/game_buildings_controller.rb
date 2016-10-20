@@ -81,7 +81,7 @@ class GameBuildingsController < ApplicationController
           roads = current_user.game_buildings.where(building_type: BuildingType.find_by(name: :bridge)).count
           map.next_first_turn if roads >= 2
           unless map.first?
-            get_resources
+            get_resources(map)
           end
         end
       else # 通常ターン

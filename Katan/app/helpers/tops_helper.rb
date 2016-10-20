@@ -55,7 +55,7 @@ module TopsHelper
     building&.building_type&.name&.+(building.user&.turn&.get_number&.to_s || '') || default
   end
 
-  def get_resources
+  def get_resources(map)
     @dice = dice
     @get_maps = GameField.where(number:@dice)
     for m in @get_maps do
@@ -69,6 +69,9 @@ module TopsHelper
         end
       end
     end
-    @dice
+    map.turns.map{|t| t.user}.each do |user|
+      broadcast = WebsocketRails.users[user.id]
+      broadcast.send_message :dice_info, @dice
+    end
   end
 end

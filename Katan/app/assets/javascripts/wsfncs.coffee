@@ -10,3 +10,5 @@ $ ->
     target.attr({"src": image_path(data.image_name)})
   ws.bind "draw_info", (data) ->
     $(".info-wrap").html(data)
+  ws.bind "dice_info", (data) ->
+    $(".dice-info").html("サイコロの目は#{data}でした！")

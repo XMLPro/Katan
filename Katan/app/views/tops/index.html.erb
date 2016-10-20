@@ -9,7 +9,8 @@
       <tr><th>都市</th><td>麦麦鉄鉄鉄</td><td>2ポイント</td></tr>
     </table>
     <%= current_user.name %><br>
-    サイコロの目は、<%= dice %>でした！</div>
+    <span class="dice-info"></span>
+    </div>
     <div class="trade">貿易関係
       <h4>輸出するもの:</h4>
       <%= form_tag tops_trade_path, remote: true do%>
