@@ -49,6 +49,11 @@ class TopsController < ApplicationController
     if current_user.resources(params[:export]).count >= 4
       GameResource.delete(current_user.game_resources.where(resource_type:ResourceType.find_by_name(params[:export])).limit(4))
       current_user.game_resources.where(resource_type:ResourceType.find_by_name(params[:import])).create
+      map = current_user.turn.game_map
+      map.turns.each do |t|
+        WebsocketRails.users[t.user_id].send_message :draw_info, render_to_string(
+            partial: 'tops/infos', locals: {map: map, user: t.user})
+      end
       render nothing:true
     else
       render "tops/trade"
