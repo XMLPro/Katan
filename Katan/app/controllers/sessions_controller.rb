@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
 
   def create
 
-    user = User.create(name: params[:session][:name])
+    user = User.create(name: params[:session][:name], secret_token: SecureRandom.hex(8))
     if user
       login(user)
       if current_user
