@@ -18,7 +18,7 @@ module TopsHelper
       end
 
       19.times do |i|
-        GameField.create game_map: map, number: rand(1..12), resource_type: resource_types.sample
+        GameField.create game_map: map, number: rand(2..12), resource_type: resource_types.sample
       end
       fields = map.game_fields
       relations.each_with_index do |v, p|
