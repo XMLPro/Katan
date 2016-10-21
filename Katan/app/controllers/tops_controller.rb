@@ -44,4 +44,11 @@ class TopsController < ApplicationController
       render "tops/trade"
     end
   end
+
+  def reset
+    if params[:password] == 'katan'
+      map_clear
+      flash[:notice] = 'success'
+    end
+  end
 end

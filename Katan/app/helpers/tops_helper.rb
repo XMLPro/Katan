@@ -48,6 +48,8 @@ module TopsHelper
     GameIntersection.delete_all
     GameSide.delete_all
     Vertex.delete_all
+    User.delete_all
+    Turn.delete_all
   end
 
   def building_image(target, default:'')

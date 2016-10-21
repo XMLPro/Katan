@@ -1,0 +1,6 @@
+<% flash.each do |key, value| %>
+    <%= content_tag(:div, value) %>
+<% end %>
+<%= form_tag reset_path do %>
+    <%= password_field_tag :password %>
+<% end %>

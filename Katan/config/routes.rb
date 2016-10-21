@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   delete 'logout' => 'sessions#destroy'
 
   get 'tops/get_resources'
+  get 'reset' => 'tops#reset'
+  post 'reset' => 'tops#reset'
 
   get 'wssample/index'
   root 'tops#index'
