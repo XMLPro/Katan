@@ -6,19 +6,13 @@ class TopsController < ApplicationController
     @intersections = @map.game_intersections
     @sides = @map.game_sides
 
-    if @map.join(current_user)
-      @map.turns.map{|t| t.user}.each do |user|
-        broadcast = WebsocketRails.users[user.id]
-        broadcast.send_message :draw_info, render_to_string(
-            partial: 'tops/infos', locals: {map: @map, user: user})
-      end
-    end
+    @map.join(current_user)
   end
 
   def turn_end
     map = current_user.turn.game_map
-    if map.next_turn
-      get_resources(map)
+    if current_user.turn == map.current_turn && map.start && map.next_turn
+      get_resources
       map.turns.each do |t|
         WebsocketRails.users[t.user_id].send_message :draw_info, render_to_string(
             partial: 'tops/infos', locals: {map: map, user: t.user})
@@ -32,6 +26,22 @@ class TopsController < ApplicationController
           broadcast.send_message :notice, {result: result}
         end
       end
+    end
+  end
+
+  def get_resources
+    @dice = dice
+    @get_maps = GameField.where(number:@dice)
+    for m in @get_maps do
+      for v in m.vertices.all do
+
+        #全ての六角形を見て、どこかの頂点に建物が建っていれば
+ 			  if v.game_intersection.game_building
+ 				  @resource_type_id = m.resource_type_id
+          @get_users = v.game_intersection.game_building.user
+          GameResource.create(user: @get_users, resource_type: ResourceType.find_by_id(@resource_type_id))
+ 			  end
+  	  end
     end
   end
 
