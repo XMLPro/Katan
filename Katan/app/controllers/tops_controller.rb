@@ -7,6 +7,13 @@ class TopsController < ApplicationController
     @sides = @map.game_sides
 
     @map.join(current_user)
+    if @map.join(current_user)
+      @map.turns.map{|t| t.user}.each do |user|
+        broadcast = WebsocketRails.users[user.id]
+        broadcast.send_message :draw_info, render_to_string(
+          partial: 'tops/infos', locals: {map: @map, user: user})
+      end
+    end
   end
 
   def turn_end
